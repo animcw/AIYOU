@@ -1,0 +1,18 @@
+<RCC>
+  <qresource prefix="about">
+    <file>images/ikun.jpg</file>
+    <file>images/icons/icons8-discord-20.png</file>
+    <file>images/icons/icons8-github-20.png</file>
+    <file>images/icons/icons8-telegram-20.png</file>
+    <file>images/icons/icons8-qq-20.png</file>
+  </qresource>
+  <qresource prefix="setting">
+    <file>images/icons/icons8-update-30.png</file>
+    <file>images/icons/icons8-help-30.png</file>
+    <file>images/icons/icons8-folder-30.png</file>
+    <file>images/icons/icons8-user-folder-30.png</file>
+  </qresource>
+  <qresource prefix="clientSwitch">
+    <file>font/xiaowei.ttf</file>
+  </qresource>
+</RCC>
