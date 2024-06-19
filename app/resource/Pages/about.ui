@@ -377,7 +377,7 @@ QLabel#version{
         <property name="frameShadow">
          <enum>QFrame::Raised</enum>
         </property>
-        <layout class="QHBoxLayout" name="horizontalLayout" stretch="8,0,0,0,0,0">
+        <layout class="QHBoxLayout" name="horizontalLayout" stretch="8,0,0,0">
          <property name="spacing">
           <number>20</number>
          </property>
@@ -411,12 +411,6 @@ QLabel#version{
          </item>
          <item>
           <widget class="TransparentToolButton" name="discord"/>
-         </item>
-         <item>
-          <widget class="TransparentToolButton" name="telegram"/>
-         </item>
-         <item>
-          <widget class="TransparentToolButton" name="qq"/>
          </item>
          <item>
           <widget class="QLabel" name="version">
