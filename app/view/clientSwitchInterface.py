@@ -1,16 +1,11 @@
-import configparser
-import os
-import subprocess
 import threading
 
-from PyQt5.QtCore import Qt
-from PyQt5.QtWidgets import QWidget, QFrame, QFileDialog
-from PyQt5.QtGui import QFontDatabase, QFont, QColor, QPainter, QBrush, QPen
-from qfluentwidgets import Flyout, InfoBarIcon, FlyoutAnimationType
-
-from app.resource.Pages.clientSwitch import Ui_clientSwitchWindow
+from PyQt5.QtWidgets import QWidget
+from qfluentwidgets import InfoBarIcon, FlyoutAnimationType
 
 from app.function.clientSwitch import *
+from app.resource.Pages.clientSwitch import Ui_clientSwitchWindow
+from app.util.UI_general_method import *
 from app.util.config_modify import config_manager
 
 
@@ -19,16 +14,6 @@ class clientSwitchPageInterface(QWidget, Ui_clientSwitchWindow):
     def __init__(self, parent=None):
         super().__init__(parent=parent)
         self.setupUi(self)
-
-        # 设置字体
-        fontDb = QFontDatabase()
-        font_id = fontDb.addApplicationFont(':clientSwitch/font/xiaowei.ttf')
-        fontFamily = fontDb.applicationFontFamilies(font_id)[0]
-
-        self.clientVersionLabel.setFont(QFont(fontFamily, 14))
-        self.fullScreenLabel.setFont(QFont(fontFamily, 14))
-        self.windowSizeLabel.setFont(QFont(fontFamily, 14))
-        self.gameStartButton.setFont(QFont(fontFamily, 14))
 
         # 设置下拉菜单
         clientItems = ['国服', '国际服']
@@ -55,17 +40,6 @@ class clientSwitchPageInterface(QWidget, Ui_clientSwitchWindow):
 
         self.load_initial_settings()
 
-    def showFlyout(self):
-        Flyout.create(
-            icon=InfoBarIcon.SUCCESS,
-            title='正在启动',
-            content="开始新的一天吧！",
-            target=self.gameStartButton,
-            parent=self,
-            isClosable=True,
-            aniType=FlyoutAnimationType.PULL_UP
-        )
-
     # 初始化界面选项
     def load_initial_settings(self):
 
@@ -91,7 +65,7 @@ class clientSwitchPageInterface(QWidget, Ui_clientSwitchWindow):
 
     def launch_game(self):
 
-        self.showFlyout()
+        show_flyout(self, InfoBarIcon.SUCCESS, '正在启动', '开始新的一天吧！', self.gameStartButton, FlyoutAnimationType.PULL_UP)
         thread = threading.Thread(target=run_game)
         thread.start()
 

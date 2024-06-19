@@ -108,10 +108,10 @@
             <string notr="true">border-radius:10px;
 background-color: #2b2828;
 color: #ffffff;
-font: 12pt &quot;站酷小薇LOGO体&quot;;</string>
+font: 400 12pt &quot;微软雅黑&quot;;</string>
            </property>
            <property name="text">
-            <string>鸣潮，启动！</string>
+            <string>IKUN，启动！</string>
            </property>
            <property name="checkable">
             <bool>false</bool>
@@ -193,7 +193,7 @@ QFrame#windowSizeBox{
             <item>
              <widget class="QLabel" name="clientVersionLabel">
               <property name="styleSheet">
-               <string notr="true">font: 14pt &quot;站酷小薇LOGO体&quot;;</string>
+               <string notr="true">font: 400 12pt &quot;微软雅黑&quot;;</string>
               </property>
               <property name="text">
                <string>服务器版本（国服/国际服）</string>
@@ -312,9 +312,9 @@ QFrame#windowSizeBox{
                 <number>16</number>
                </property>
                <item>
-                <widget class="QLabel" name="label">
+                <widget class="QLabel" name="loadModLabel">
                  <property name="styleSheet">
-                  <string notr="true">font: 14pt &quot;站酷小薇LOGO体&quot;;</string>
+                  <string notr="true">font: 400 12pt &quot;微软雅黑&quot;;</string>
                  </property>
                  <property name="text">
                   <string>加载模组（-fileopenlog）</string>
@@ -402,7 +402,7 @@ QFrame#windowSizeBox{
                <item>
                 <widget class="QLabel" name="fullScreenLabel">
                  <property name="styleSheet">
-                  <string notr="true">font: 14pt &quot;站酷小薇LOGO体&quot;;</string>
+                  <string notr="true">font: 400 12pt &quot;微软雅黑&quot;;</string>
                  </property>
                  <property name="text">
                   <string>全屏/窗口化</string>
@@ -478,7 +478,7 @@ QFrame#windowSizeBox{
                <item>
                 <widget class="QLabel" name="windowSizeLabel">
                  <property name="styleSheet">
-                  <string notr="true">font: 14pt &quot;站酷小薇LOGO体&quot;;</string>
+                  <string notr="true">font: 400 12pt &quot;微软雅黑&quot;;</string>
                  </property>
                  <property name="text">
                   <string>窗口尺寸</string>
