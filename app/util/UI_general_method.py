@@ -1,10 +1,9 @@
 from PyQt5.QtCore import Qt, QSize
 from PyQt5.QtGui import QIcon
-from qfluentwidgets import InfoBar, InfoBarPosition
+from qfluentwidgets import InfoBar, InfoBarPosition, Flyout
 
 
 def show_info_bar(window, info_type, title, info):
-
     if info_type == 'success':
         InfoBar.success(
             title=title,
@@ -37,9 +36,19 @@ def show_info_bar(window, info_type, title, info):
         )
 
 
-def set_icon(button, icon, size):
+def show_flyout(self, icon, title, content, target, aniType):
+    Flyout.create(
+        icon=icon,
+        title=title,
+        content=content,
+        target=target,
+        parent=self,
+        isClosable=True,
+        aniType=aniType
+    )
 
+
+def set_icon(button, icon, size):
     button.setIcon(QIcon(icon))
     button.setFixedSize(size, size)
     button.setIconSize(QSize(size, size))
-
