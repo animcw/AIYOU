@@ -28,6 +28,8 @@
 
 - [ ] 宏操作
 
+- [x] Mod详情显示
+
 # Install
 
 ```
@@ -46,6 +48,12 @@
 pip install "PyQt-Fluent-Widgets[full]" -i https://pypi.org/simple/
 pyinstaller --upx-dir "path/to/your/upx" main.spec
 ```
+
+# About
+
+对于没有显示详情的Mod，如果你明确知道Mod功能，请提交给我，或自行在下面的仓库中提交Mod详情介绍commit
+
+[仓库地址](https://gitee.com/wxdxyyds/aiyou_-translate)
 
 # Preview
 
