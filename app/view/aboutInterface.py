@@ -23,13 +23,9 @@ class aboutPageInterface(QWidget, Ui_aboutWindow):
 
         set_icon(self.github, github_icon, 20)
         set_icon(self.discord, discord_icon, 20)
-        set_icon(self.telegram, telegram_icon, 20)
-        set_icon(self.qq, qq_icon, 20)
 
         self.github.clicked.connect(self.open_github)
         self.discord.clicked.connect(self.open_discord)
-        self.telegram.clicked.connect(self.open_telegram)
-        self.qq.clicked.connect(self.open_qq)
 
     def open_github(self):
 
@@ -39,10 +35,3 @@ class aboutPageInterface(QWidget, Ui_aboutWindow):
 
         QDesktopServices.openUrl(QUrl('https://discordapp.com/users/1018192564098191522'))
 
-    def open_telegram(self):
-
-        QDesktopServices.openUrl(QUrl('https://t.me/cey1anze'))
-
-    def open_qq(self):
-
-        QDesktopServices.openUrl(QUrl('https://qm.qq.com/q/IoiGefc0qy'))
