@@ -75,7 +75,7 @@ def initialize_config():
             'gameSetting': {'game_path': '', 'client_version': '', 'is_load_mod': 0, 'full_screen_mode': '',
                             'windows_size_width': '',
                             'windows_size_height': ''},
-            'programSetting': {'root_dir': '', 'data_dir': '', 'cache_dir': '', 'mod_download_dir': 'C:\\Users'}
+            'programSetting': {'root_dir': '', 'data_dir': '', 'cache_dir': '', 'mod_download_dir': 'C:\\Users', 'mod_description_dir': 'https://gitee.com/wxdxyyds/aiyou_-translate/raw/master/modDescription.json'}
         }
         create_ini(config_file, sections)
 
