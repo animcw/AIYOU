@@ -5,7 +5,6 @@ from PyQt5.QtWidgets import QFileDialog
 
 
 class ConfigManager:
-
     _instance = None
     _config_file = None
 
@@ -17,7 +16,6 @@ class ConfigManager:
         return cls._instance
 
     def init_config(self, config_file):
-
         if not self._initialized:
             self.config = configparser.ConfigParser()
             self.config_file = config_file
@@ -25,18 +23,15 @@ class ConfigManager:
             self._initialized = True
 
     def read_config(self):
-
         if os.path.exists(self.config_file):
             self.config.read(self.config_file)
         else:
             raise FileNotFoundError(f"{self.config_file} does not exist.")
 
     def get(self, section, key):
-
         return self.config.get(section, key)
 
     def set(self, section, key, value):
-
         if not self.config.has_section(section):
             self.config.add_section(section)
         self.config.set(section, key, value)
@@ -48,8 +43,13 @@ class ConfigManager:
         return {section: dict(self.config.items(section)) for section in self.config.sections()}
 
 
-def create_ini(config_file, sections):
+def mkdir(path):
+    folder = os.path.exists(path)
+    if not folder:
+        os.makedirs(path)
 
+
+def create_ini(config_file, sections):
     config = configparser.ConfigParser()
     for section, options in sections.items():
         config[section] = options
@@ -58,15 +58,20 @@ def create_ini(config_file, sections):
 
 
 def initialize_config():
-
     current_directory = os.getcwd()
     app_data_folder = os.path.join(current_directory, 'AppData')
+    tool_folder = os.path.join(app_data_folder, 'Tools')
     client_cache_folder = os.path.join(current_directory, 'ServerCache')
+    unpaked_TP_file_folder = os.path.join(app_data_folder, 'custom_TP_file')
+    single_tp_file_cache_folder = os.path.join(unpaked_TP_file_folder, 'Single_TP_file_cache')
+    saved_TP_file_folder = os.path.join(unpaked_TP_file_folder, 'saved_custom_TP_file')
 
-    if not os.path.exists(app_data_folder):
-        os.makedirs(app_data_folder)
-    if not os.path.exists(client_cache_folder):
-        os.makedirs(client_cache_folder)
+    mkdir(app_data_folder)
+    mkdir(client_cache_folder)
+    mkdir(tool_folder)
+    mkdir(unpaked_TP_file_folder)
+    mkdir(single_tp_file_cache_folder)
+    mkdir(saved_TP_file_folder)
 
     config_file = os.path.join(app_data_folder, 'config.ini')
 
@@ -75,7 +80,8 @@ def initialize_config():
             'gameSetting': {'game_path': '', 'client_version': '', 'is_load_mod': 0, 'full_screen_mode': '',
                             'windows_size_width': '',
                             'windows_size_height': ''},
-            'programSetting': {'root_dir': '', 'data_dir': '', 'cache_dir': '', 'mod_download_dir': 'C:\\Users', 'mod_description_dir': 'https://gitee.com/wxdxyyds/aiyou_-translate/raw/master/modDescription.json'}
+            'programSetting': {'root_dir': '', 'data_dir': '', 'cache_dir': '', 'mod_download_dir': 'C:\\Users',
+                               'mod_description_dir': 'https://gitee.com/wxdxyyds/aiyou_-translate/raw/master/modDescription.json'}
         }
         create_ini(config_file, sections)
 
@@ -90,7 +96,6 @@ config_manager = ConfigManager()
 
 
 def check_path(self, section, key, is_game_path):
-
     path = config_manager.get(section, key)
     if is_game_path:
         if not os.path.isfile(path):
@@ -98,7 +103,8 @@ def check_path(self, section, key, is_game_path):
             if game_path:
                 config_manager.set(section, key, game_path)
                 config = configparser.ConfigParser()
-                ini_path = os.path.join(game_path, '..', '..', '..', 'Saved', 'Config', 'WindowsNoEditor', 'GameUserSettings.ini')
+                ini_path = os.path.join(game_path, '..', '..', '..', 'Saved', 'Config', 'WindowsNoEditor',
+                                        'GameUserSettings.ini')
                 config.read(ini_path)
 
                 resolutionsizex = config.getint('/Script/Engine.GameUserSettings', 'resolutionsizex', fallback=None)
