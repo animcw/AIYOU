@@ -1,18 +1,7 @@
 import json
 import os
 import re
-import sys
 import zipfile
-
-
-def resource_path(relative_path):
-    """获取资源的绝对路径（处理 PyInstaller 打包后的路径问题）"""
-    try:
-        base_path = sys._MEIPASS
-    except Exception:
-        base_path = os.path.abspath(".")
-
-    return os.path.join(base_path, relative_path)
 
 
 def unzip_file(zip_path, extract_path):
@@ -95,17 +84,37 @@ const puerts_1 = require("puerts"),
 class ModTpFile {
 '''
 
+    # 合成所有列表到一个大列表
+    all_in_one_list = []
+    current_id = 1  # 用于重新分配唯一的ID
+
+    for file_path in selected_files:
+        list_name = os.path.splitext(os.path.basename(file_path))[0]
+        if list_name in json_files:
+            list_content = json_files[list_name]
+            for item in list_content:
+                item['id'] = current_id  # 更新ID值
+                current_id += 1
+            all_in_one_list.extend(list_content)
+        else:
+            print(f"Warning: {list_name}.json not found in the specified directory.")
+
+    # 对 all_in_one 列表进行排序（假设按照 id 排序）
+    all_in_one_list = sorted(all_in_one_list, key=lambda x: x['id'])
+
+    # 添加 all_in_one 列表作为第一个静态属性
+    combined_js_content += f'    static all_in_one = {json.dumps(all_in_one_list, ensure_ascii=False, indent=4)};\n'
+
+    # 添加其他静态属性
     for file_path in selected_files:
         list_name = os.path.splitext(os.path.basename(file_path))[0]
         if list_name in json_files:
             list_content = json.dumps(json_files[list_name], ensure_ascii=False, indent=4)
             combined_js_content += f'    static {list_name} = {list_content};\n'
-        else:
-            print(f"Warning: {list_name}.json not found in the specified directory.")
 
-    # 获取所有列表名
+    # 获取所有列表名，包括 all_in_one
     all_lists = ",\n    ".join(
-        [f'this.{os.path.splitext(os.path.basename(file_path))[0]}' for file_path in selected_files])
+        ['this.all_in_one'] + [f'this.{os.path.splitext(os.path.basename(file_path))[0]}' for file_path in selected_files])
 
     # 添加结尾内容
     combined_js_content += f'''
