@@ -1,14 +1,13 @@
-import os
 import shutil
 
 from PyQt5.QtCore import QUrl
 from PyQt5.QtGui import QDesktopServices
-from PyQt5.QtWidgets import QWidget, QTreeWidgetItem, QFileDialog
+from PyQt5.QtWidgets import QWidget, QFileDialog
 from qfluentwidgets import MessageBox, InfoBarIcon, FlyoutAnimationType
 
 from app.resource.Pages.modManager import Ui_modWindow
 from app.util.UI_general_method import *
-from app.util.config_modify import config_manager
+from app.util.get_path import *
 from app.util.mod_manager import *
 
 
@@ -18,17 +17,17 @@ class modManagerPageInterface(QWidget, Ui_modWindow):
         super().__init__(parent=parent)
         self.setupUi(self)
 
-        self.mod_description_path = config_manager.get('programSetting', 'mod_description_dir')
-        self.mod_description = load_description(self.mod_description_path)
-        game_path = config_manager.get('gameSetting', 'game_path')
-        self.mod_download_path = config_manager.get('programSetting', 'mod_download_dir')
+        mod_description_path = get_description_path()
+        self.mod_description = load_description(mod_description_path)
+        self.mod_download_path = get_mod_download_path()
+        game_path = get_game_path()
         self.mod_path = os.path.join(game_path, '..', '..', '..', 'Content', 'Paks', '~mod')
 
         self.downloadFolder.setHeaderHidden(True)
         self.modFolder.setHeaderHidden(True)
 
-        self.refresh_folder(self.downloadFolder, self.mod_download_path)
-        self.refresh_folder(self.modFolder, self.mod_path)
+        refresh_folder(self.downloadFolder, self.mod_download_path, self.deleteButton, '.pak')
+        refresh_folder(self.modFolder, self.mod_path, self.deleteButton, '.pak')
 
         self.selectDownload.clicked.connect(self.download_folder_selector)
         self.openModFolder.clicked.connect(self.open_mod_folder)
@@ -43,24 +42,23 @@ class modManagerPageInterface(QWidget, Ui_modWindow):
 
         self.update_delete_button_state()
 
+    def update_delete_button_state(self):
+        update_button_state(self.modFolder, self.deleteButton)
+
     def download_folder_selector(self):
         path = QFileDialog.getExistingDirectory(self, "选择文件夹", "")
         if path:
-            config_manager.set('programSetting', 'mod_download_dir', path)
-            self.refresh_folder(self.downloadFolder, path)
+            set_mod_download_path(path)
+            refresh_folder(self.downloadFolder, path, self.deleteButton, '.pak')
 
     def open_mod_folder(self):
         QDesktopServices.openUrl(QUrl.fromLocalFile(self.mod_path))
 
     def refresh_all(self):
-        self.mod_download_path = config_manager.get('programSetting', 'mod_download_dir')
-        self.refresh_folder(self.downloadFolder, self.mod_download_path)
-        self.refresh_folder(self.modFolder, self.mod_path)
+        self.mod_download_path = get_mod_download_path()
+        refresh_folder(self.downloadFolder, self.mod_download_path, self.deleteButton, '.pak')
+        refresh_folder(self.modFolder, self.mod_path, self.deleteButton, '.pak')
         show_info_bar(self, 'success', '刷新成功！', '＼(＾O＾)／')
-
-    def select_download_folder(self, path):
-        config_manager.set('programSetting', 'mod_download_dir', path)
-        self.refresh_folder(self.downloadFolder, self.mod_download_path)
 
     def delete_mods(self):
         title = '你想好要删除选中的mod了吗？'
@@ -69,33 +67,9 @@ class modManagerPageInterface(QWidget, Ui_modWindow):
         if w.exec():
             self.delete_selected_mods()
 
-    def add_tree_items(self, parent, directory):
-        parent.clear()
-        root_item = QTreeWidgetItem([os.path.basename(directory)])
-        root_item.setFlags(root_item.flags() | Qt.ItemIsUserCheckable | Qt.ItemIsTristate)
-        root_item.setCheckState(0, Qt.Unchecked)
-        root_item.setData(0, Qt.UserRole, directory)
-        parent.addTopLevelItem(root_item)
-        self.add_subtree_items(root_item, directory)
-
-    def add_subtree_items(self, parent_item, path):
-        try:
-            items = os.listdir(path)
-            items.sort()
-            for item in items:
-                item_path = os.path.join(path, item)
-                if os.path.isfile(item_path) and item.endswith('.pak'):
-                    child_item = QTreeWidgetItem([item])
-                    child_item.setFlags(child_item.flags() | Qt.ItemIsUserCheckable)
-                    child_item.setCheckState(0, Qt.Unchecked)
-                    child_item.setData(0, Qt.UserRole, item_path)
-                    parent_item.addChild(child_item)
-        except PermissionError:
-            pass
-
     def copy_selected_mod(self):
         selected_paths = []
-        self.get_selected_mods(self.downloadFolder.invisibleRootItem(), selected_paths)
+        get_selected_item(self.downloadFolder.invisibleRootItem(), selected_paths)
         if selected_paths:
             if self.mod_path:
                 for path in selected_paths:
@@ -110,38 +84,18 @@ class modManagerPageInterface(QWidget, Ui_modWindow):
                     except Exception as e:
                         show_info_bar(self, 'error', '添加失败！', f"无法复制 {path}: {e}")
 
-        self.refresh_folder(self.modFolder, self.mod_path)
-
-    def get_selected_mods(self, item, selected_paths):
-        for i in range(item.childCount()):
-            child = item.child(i)
-            if child.checkState(0) in (Qt.Checked, Qt.PartiallyChecked):
-                path = child.data(0, Qt.UserRole)
-                if path and not os.path.isdir(path):
-                    selected_paths.append(path)
-            self.get_selected_mods(child, selected_paths)
-
-    def refresh_folder(self, folder, path):
-        folder.clear()
-        self.add_tree_items(folder, path)
-        folder.expandAll()
-        self.update_delete_button_state()
+        refresh_folder(self.modFolder, self.mod_path, self.deleteButton, '.pak')
 
     def delete_selected_mods(self):
         selected_paths = []
-        self.get_selected_mods(self.modFolder.invisibleRootItem(), selected_paths)
+        get_selected_item(self.modFolder.invisibleRootItem(), selected_paths)
         for path in selected_paths:
             try:
                 os.remove(path)
                 show_info_bar(self, 'success', '删除成功！', '哎呦，你干嘛Σ(°ロ°)')
             except Exception as e:
                 show_info_bar(self, 'error', '删除失败！', f"无法删除 {path}: {e}")
-        self.refresh_folder(self.modFolder, self.mod_path)
-
-    def update_delete_button_state(self):
-        selected_paths = []
-        self.get_selected_mods(self.modFolder.invisibleRootItem(), selected_paths)
-        self.deleteButton.setEnabled(bool(selected_paths))
+        refresh_folder(self.modFolder, self.mod_path, self.deleteButton, '.pak')
 
     def show_mod_description_mod_folder(self):
         selected_items = self.modFolder.selectedItems()
@@ -153,4 +107,5 @@ class modManagerPageInterface(QWidget, Ui_modWindow):
         selected_items = self.downloadFolder.selectedItems()
         if selected_items[0].text(0) in self.mod_description:
             show_flyout(self, InfoBarIcon.INFORMATION, selected_items[0].text(0),
-                        self.mod_description[selected_items[0].text(0)], self.downloadFolder, FlyoutAnimationType.PULL_UP)
+                        self.mod_description[selected_items[0].text(0)], self.downloadFolder,
+                        FlyoutAnimationType.PULL_UP)
