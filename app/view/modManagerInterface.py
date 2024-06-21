@@ -8,7 +8,7 @@ from qfluentwidgets import MessageBox, InfoBarIcon, FlyoutAnimationType
 from app.resource.Pages.modManager import Ui_modWindow
 from app.util.UI_general_method import *
 from app.util.get_path import *
-from app.util.mod_manager import *
+from app.util.requests_general import *
 
 
 class modManagerPageInterface(QWidget, Ui_modWindow):
