@@ -1,7 +1,24 @@
 import configparser
 import os
+import sys
 
+from PyQt5.QtCore import QUrl
+from PyQt5.QtGui import QDesktopServices
 from PyQt5.QtWidgets import QFileDialog
+from qfluentwidgets import MessageBox
+
+from app.util.UI_general_method import show_info_bar
+from app.util.requests_general import get_version_data
+
+
+def resource_path(relative_path):
+    """获取资源的绝对路径（处理 PyInstaller 打包后的路径问题）"""
+    try:
+        base_path = sys._MEIPASS
+    except Exception:
+        base_path = os.path.abspath(".")
+
+    return os.path.join(base_path, relative_path)
 
 
 class ConfigManager:
@@ -80,7 +97,8 @@ def initialize_config():
             'gameSetting': {'game_path': '', 'client_version': '', 'is_load_mod': 0, 'full_screen_mode': '',
                             'windows_size_width': '',
                             'windows_size_height': ''},
-            'programSetting': {'root_dir': '', 'data_dir': '', 'cache_dir': '', 'mod_download_dir': 'C:\\Users',
+            'programSetting': {'root_dir': '', 'data_dir': '', 'cache_dir': '',
+                               'mod_download_dir': 'C:\\Users',
                                'mod_description_dir': 'https://gitee.com/wxdxyyds/aiyou_-translate/raw/master/modDescription.json'}
         }
         create_ini(config_file, sections)
@@ -125,4 +143,59 @@ def check_path(self, section, key, is_game_path):
 
     return config_manager.get(section, key)
 
+
 # create_ini('../../AppData/config.ini', sections)
+
+def check_update(self, is_button_clicked):
+    file_path = resource_path('AppData/version')
+    current_version = read_version_from_file(file_path)
+    version_json = get_version_data()
+    online_version = version_json.get('version', '0.0.0')
+    version_status = compare_versions(online_version, current_version)
+    if not version_status:
+        if is_button_clicked:
+            show_update_box(self)
+        else:
+            show_info_bar(self, 'warning', '发现新版本', '请尽快前往更新')
+    else:
+        show_info_bar(self, 'success', '当前已是最新版本', '')
+
+
+def read_version_from_file(file_path):
+    version = '0.0.0'
+    try:
+        with open(file_path, 'r', encoding='utf-8') as file:
+            for line in file:
+                if line.startswith("version:"):
+                    version = line.split(":")[1].strip()
+                    break
+    except FileNotFoundError:
+        print(f"The file {file_path} does not exist.")
+    except Exception as e:
+        print(f"An error occurred: {e}")
+
+    return version
+
+
+def show_update_box(self):
+    release_url = 'https://github.com/LittleBlackOfKUN/AIYOU/releases'
+    w = MessageBox("发现新版本", "点击前往更新~~", self)
+    if w.exec():
+        QDesktopServices.openUrl(QUrl(release_url))
+
+
+def compare_versions(version1, version2):
+    v1_parts = [int(part) for part in version1.split('.') if part.strip().isdigit()]
+    v2_parts = [int(part) for part in version2.split('.') if part.strip().isdigit()]
+
+    max_length = max(len(v1_parts), len(v2_parts))
+    v1_parts.extend([0] * (max_length - len(v1_parts)))
+    v2_parts.extend([0] * (max_length - len(v2_parts)))
+
+    for v1, v2 in zip(v1_parts, v2_parts):
+        if v1 > v2:
+            return False
+        elif v1 < v2:
+            return True
+
+    return True
