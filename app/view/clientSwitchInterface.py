@@ -6,7 +6,7 @@ from qfluentwidgets import InfoBarIcon, FlyoutAnimationType
 from app.function.clientSwitch import *
 from app.resource.Pages.clientSwitch import Ui_clientSwitchWindow
 from app.util.UI_general_method import *
-from app.util.config_modify import config_manager
+from app.util.get_path import *
 
 
 class clientSwitchPageInterface(QWidget, Ui_clientSwitchWindow):
@@ -42,12 +42,11 @@ class clientSwitchPageInterface(QWidget, Ui_clientSwitchWindow):
 
     # 初始化界面选项
     def load_initial_settings(self):
-
-        client_version = config_manager.get('gameSetting', 'client_version')
-        full_screen_mod = config_manager.get('gameSetting', 'full_screen_mode')
-        is_load_mod = config_manager.get('gameSetting', 'is_load_mod')
-        windows_size_width = config_manager.get('gameSetting', 'windows_size_width')
-        windows_size_height = config_manager.get('gameSetting', 'windows_size_height')
+        client_version = get_client_version()
+        full_screen_mod = get_full_screen_mode()
+        is_load_mod = get_load_mod()
+        windows_size_width = get_windows_size_width()
+        windows_size_height = get_windows_size_height()
 
         # 设置下拉菜单的初始状态
         client_version_index = {'cn': 0, 'os': 1}.get(client_version, -1)
@@ -64,28 +63,24 @@ class clientSwitchPageInterface(QWidget, Ui_clientSwitchWindow):
         self.loadSwitchButton.setChecked(is_load_mod == '1')
 
     def launch_game(self):
-
         show_flyout(self, InfoBarIcon.SUCCESS, '正在启动', '开始新的一天吧！', self.gameStartButton, FlyoutAnimationType.PULL_UP)
         thread = threading.Thread(target=run_game)
         thread.start()
 
     def switchLoad(self, isChecked: bool):
-
         if isChecked:
-            config_manager.set('gameSetting', 'is_load_mod', '1')
+            set_load_mod('1')
         else:
-            config_manager.set('gameSetting', 'is_load_mod', '0')
+            set_load_mod('0')
 
     def client_version_changed(self, index):
-
         version_map = {0: 'cn', 1: 'os'}
         client_version = version_map.get(index)
-        config_manager.set('gameSetting', 'client_version', client_version)
+        set_client_version(client_version)
 
     def full_screen_changed(self, index):
-
         full_screen_mode = str(index)
-        config_manager.set('gameSetting', 'full_screen_mode', full_screen_mode)
+        set_full_screen_mode(full_screen_mode)
         if full_screen_mode == '0':
             self.windowSizeSelect.setEnabled(0)
             change_game_ini('FullscreenMode', '1')
@@ -94,10 +89,9 @@ class clientSwitchPageInterface(QWidget, Ui_clientSwitchWindow):
             change_game_ini('FullscreenMode', '2')
 
     def window_size_changed(self, index):
-
         window_size = self.windowSizeSelect.itemText(index)
         width, height = window_size.split('x')
-        config_manager.set('gameSetting', 'windows_size_width', width)
-        config_manager.set('gameSetting', 'windows_size_height', height)
+        set_windows_size_width(width)
+        set_windows_size_height(height)
         change_game_ini('resolutionsizex', width)
         change_game_ini('resolutionsizey', height)
