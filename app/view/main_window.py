@@ -14,6 +14,7 @@ from app.view.aboutInterface import aboutPageInterface
 from app.view.clientSwitchInterface import clientSwitchPageInterface
 from app.view.modManagerInterface import modManagerPageInterface
 from app.view.settingInterface import settingPageInterface
+from app.view.TPFileManagerInterface import TPFileManagerPageInterface
 
 
 class MainWindow(MSFluentWindow):
@@ -28,6 +29,7 @@ class MainWindow(MSFluentWindow):
         self.clientSwitchInterface = clientSwitchPageInterface(self)
         self.aboutInterface = aboutPageInterface(self)
         self.modManagerInterface = modManagerPageInterface(self)
+        self.TPFileManagerInterface = TPFileManagerPageInterface(self)
         self.settingInterface = settingPageInterface(self)
 
         self.connectSignalToSlot()
@@ -45,9 +47,8 @@ class MainWindow(MSFluentWindow):
         # self.addSubInterface(self.homeInterface, FIF.HOME, self.tr('Home'))
         self.addSubInterface(self.clientSwitchInterface, FIF.GAME, self.tr('启动设置'))
         self.addSubInterface(self.modManagerInterface, FIF.DICTIONARY, self.tr('Mod管理'))
+        self.addSubInterface(self.TPFileManagerInterface, FIF.TRAIN, self.tr('TP文件管理'))
         self.addSubInterface(self.aboutInterface, FIF.INFO, self.tr('关于'), position=NavigationItemPosition.BOTTOM)
-
-        # add custom widget to bottom
         self.addSubInterface(self.settingInterface, FIF.SETTING, self.tr('设置'), position=NavigationItemPosition.BOTTOM)
 
         self.splashScreen.finish()
