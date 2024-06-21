@@ -19,6 +19,13 @@
   <property name="windowTitle">
    <string>clientSwitch</string>
   </property>
+  <property name="styleSheet">
+   <string notr="true">QFrame#mainBody{
+	border: 1px soild transparent;
+	border-radius:10px;
+	background-color:#f3f3f2;
+}</string>
+  </property>
   <layout class="QVBoxLayout" name="verticalLayout_2">
    <property name="spacing">
     <number>0</number>
@@ -40,7 +47,6 @@
      <property name="styleSheet">
       <string notr="true">QFrame#mainBody{
 	border:none;
-	background-color:#f3f3f2;
 }</string>
      </property>
      <property name="frameShape">
@@ -126,19 +132,19 @@ font: 400 12pt &quot;微软雅黑&quot;;</string>
         <property name="styleSheet">
          <string notr="true">QFrame#clientVersionBox{
 	border-radius:10px;
-	background-color:rgba(107, 121, 142, 20);
+	background-color:rgba(107, 121, 142, 15);
 }
 QFrame#loadModBox{
 	border-radius:10px;
-	background-color:rgba(107, 121, 142, 20);
+	background-color:rgba(107, 121, 142, 15);
 }
 QFrame#fullScreenBox{
 	border-radius:10px;
-	background-color:rgba(107, 121, 142, 20);
+	background-color:rgba(107, 121, 142, 15);
 }
 QFrame#windowSizeBox{
 	border-radius:10px;
-	background-color:rgba(107, 121, 142, 20);
+	background-color:rgba(107, 121, 142, 15);
 }</string>
         </property>
         <property name="frameShape">

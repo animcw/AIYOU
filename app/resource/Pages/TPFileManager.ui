@@ -14,7 +14,11 @@
    <string>TPFileManager</string>
   </property>
   <property name="styleSheet">
-   <string notr="true">background-color: #f3f3f2;</string>
+   <string notr="true">QFrame#mainBody{
+	border: 1px soild transparent;
+	border-radius:10px;
+	background-color:#f3f3f2;
+}</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_2">
    <item>

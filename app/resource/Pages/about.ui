@@ -19,6 +19,13 @@
   <property name="windowTitle">
    <string>about</string>
   </property>
+  <property name="styleSheet">
+   <string notr="true">QFrame#mainBody{
+	border: 1px soild transparent;
+	border-radius:10px;
+	background-color:#f3f3f2;
+}</string>
+  </property>
   <layout class="QVBoxLayout" name="verticalLayout">
    <property name="spacing">
     <number>0</number>
@@ -40,7 +47,6 @@
      <property name="styleSheet">
       <string notr="true">QFrame#mainBody{
 	border:none;
-	background-color:#f3f3f2;
 }
 QFrame#leftBox{
 	border:none;

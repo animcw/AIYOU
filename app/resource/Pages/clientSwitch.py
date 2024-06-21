@@ -16,6 +16,11 @@ class Ui_clientSwitchWindow(object):
         clientSwitchWindow.setObjectName("clientSwitchWindow")
         clientSwitchWindow.resize(800, 600)
         clientSwitchWindow.setMinimumSize(QtCore.QSize(800, 600))
+        clientSwitchWindow.setStyleSheet("QFrame#mainBody{\n"
+"    border: 1px soild transparent;\n"
+"    border-radius:10px;\n"
+"    background-color:#f3f3f2;\n"
+"}")
         self.verticalLayout_2 = QtWidgets.QVBoxLayout(clientSwitchWindow)
         self.verticalLayout_2.setContentsMargins(0, 0, 0, 0)
         self.verticalLayout_2.setSpacing(0)
@@ -23,7 +28,6 @@ class Ui_clientSwitchWindow(object):
         self.mainBody = QtWidgets.QFrame(clientSwitchWindow)
         self.mainBody.setStyleSheet("QFrame#mainBody{\n"
 "    border:none;\n"
-"    background-color:#f3f3f2;\n"
 "}")
         self.mainBody.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.mainBody.setFrameShadow(QtWidgets.QFrame.Raised)
@@ -63,19 +67,19 @@ class Ui_clientSwitchWindow(object):
         self.switchMainBox = QtWidgets.QFrame(self.mainBody)
         self.switchMainBox.setStyleSheet("QFrame#clientVersionBox{\n"
 "    border-radius:10px;\n"
-"    background-color:rgba(107, 121, 142, 20);\n"
+"    background-color:rgba(107, 121, 142, 15);\n"
 "}\n"
 "QFrame#loadModBox{\n"
 "    border-radius:10px;\n"
-"    background-color:rgba(107, 121, 142, 20);\n"
+"    background-color:rgba(107, 121, 142, 15);\n"
 "}\n"
 "QFrame#fullScreenBox{\n"
 "    border-radius:10px;\n"
-"    background-color:rgba(107, 121, 142, 20);\n"
+"    background-color:rgba(107, 121, 142, 15);\n"
 "}\n"
 "QFrame#windowSizeBox{\n"
 "    border-radius:10px;\n"
-"    background-color:rgba(107, 121, 142, 20);\n"
+"    background-color:rgba(107, 121, 142, 15);\n"
 "}")
         self.switchMainBox.setFrameShape(QtWidgets.QFrame.StyledPanel)
         self.switchMainBox.setFrameShadow(QtWidgets.QFrame.Raised)
