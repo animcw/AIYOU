@@ -8,7 +8,7 @@ from qfluentwidgets import InfoBarIcon, FlyoutAnimationType
 from app.resource.Pages.TPFileManager import Ui_TPfileWindow
 from app.util.TP_manager import *
 from app.util.UI_general_method import *
-from app.util.config_modify import mkdir
+from app.util.config_modify import mkdir, resource_path
 from app.util.get_path import *
 
 
