@@ -24,7 +24,7 @@
 
 - [ ] 双端转换（CN < -- > OS）
 
-- [ ] TP文件自定义
+- [x] TP文件自定义
 
 - [ ] 宏操作
 
@@ -59,13 +59,15 @@ pyinstaller --upx-dir "path/to/your/upx" main.spec
 
 > 没有全部使用Fluent-Widget，凑合着看吧，后期再优化
 
-![](https://cdn.jsdelivr.net/gh/Cey1anze/Blog_Images@main/pic/202406192137195.png)
+![](https://cdn.jsdelivr.net/gh/Cey1anze/Blog_Images@main/pic/202406211459270.png)
 
-![](https://cdn.jsdelivr.net/gh/Cey1anze/Blog_Images@main/pic/202406192137750.png)
+![](https://cdn.jsdelivr.net/gh/Cey1anze/Blog_Images@main/pic/202406211511817.png)
 
-![](https://cdn.jsdelivr.net/gh/Cey1anze/Blog_Images@main/pic/202406182255029.png)
+![](https://cdn.jsdelivr.net/gh/Cey1anze/Blog_Images@main/pic/202406211511232.png)
 
-![](https://cdn.jsdelivr.net/gh/Cey1anze/Blog_Images@main/pic/202406182256174.png)
+![](https://cdn.jsdelivr.net/gh/Cey1anze/Blog_Images@main/pic/202406211512088.png)
+
+![](https://cdn.jsdelivr.net/gh/Cey1anze/Blog_Images@main/pic/202406211512245.png)
 
 # Contribute
 
