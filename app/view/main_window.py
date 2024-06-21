@@ -9,7 +9,7 @@ from qfluentwidgets import NavigationItemPosition, MSFluentWindow, SplashScreen
 
 from app.common.config import cfg
 from app.common.signal_bus import signalBus
-from app.util.config_modify import check_path
+from app.util.config_modify import *
 from app.view.aboutInterface import aboutPageInterface
 from app.view.clientSwitchInterface import clientSwitchPageInterface
 from app.view.modManagerInterface import modManagerPageInterface
@@ -22,7 +22,10 @@ class MainWindow(MSFluentWindow):
     def __init__(self):
         super().__init__()
         self.initWindow()
+
+        initialize_config()
         check_path(self, 'gameSetting', 'game_path', True)
+        check_update(self, False)
 
         # TODO: create sub interface
         # self.homeInterface = HomeInterface(self)
@@ -41,7 +44,6 @@ class MainWindow(MSFluentWindow):
         signalBus.micaEnableChanged.connect(self.setMicaEffectEnabled)
 
     def initNavigation(self):
-        # self.navigationInterface.setAcrylicEnabled(True)
 
         # TODO: add navigation items
         # self.addSubInterface(self.homeInterface, FIF.HOME, self.tr('Home'))
