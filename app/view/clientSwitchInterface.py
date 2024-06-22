@@ -44,6 +44,7 @@ class clientSwitchPageInterface(QWidget, Ui_clientSwitchWindow):
     def load_initial_settings(self):
         client_version = get_client_version()
         full_screen_mod = get_full_screen_mode()
+        print(full_screen_mod)
         is_load_mod = get_load_mod()
         windows_size_width = get_windows_size_width()
         windows_size_height = get_windows_size_height()
@@ -52,7 +53,7 @@ class clientSwitchPageInterface(QWidget, Ui_clientSwitchWindow):
         client_version_index = {'cn': 0, 'os': 1}.get(client_version, -1)
         self.clientSelect.setCurrentIndex(client_version_index)
 
-        full_screen_index = int(full_screen_mod)
+        full_screen_index = int(full_screen_mod) - 1
         self.fullScreenSelect.setCurrentIndex(full_screen_index)
 
         window_size_text = f"{windows_size_width}x{windows_size_height}"
