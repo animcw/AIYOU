@@ -7,6 +7,7 @@ from qfluentwidgets import MessageBox, InfoBarIcon, FlyoutAnimationType
 
 from app.resource.Pages.modManager import Ui_modWindow
 from app.util.UI_general_method import *
+from app.util.config_modify import mkdir
 from app.util.get_path import *
 from app.util.requests_general import *
 
@@ -22,6 +23,8 @@ class modManagerPageInterface(QWidget, Ui_modWindow):
         self.mod_download_path = get_mod_download_path()
         game_path = get_game_path()
         self.mod_path = os.path.join(game_path, '..', '..', '..', 'Content', 'Paks', '~mod')
+
+        mkdir(self.mod_path)
 
         self.downloadFolder.setHeaderHidden(True)
         self.modFolder.setHeaderHidden(True)
