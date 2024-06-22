@@ -24,7 +24,7 @@ class MainWindow(MSFluentWindow):
         self.initWindow()
 
         initialize_config()
-        check_path(self, 'gameSetting', 'game_path', True)
+        check_path(self, 'gameSetting', 'game_path')
         check_update(self, False)
 
         # TODO: create sub interface
