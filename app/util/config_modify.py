@@ -1,6 +1,10 @@
 import configparser
 import os
 import sys
+import time
+
+import win32api
+import win32con
 
 from PyQt5.QtCore import QUrl
 from PyQt5.QtGui import QDesktopServices
@@ -60,6 +64,9 @@ class ConfigManager:
         return {section: dict(self.config.items(section)) for section in self.config.sections()}
 
 
+config_manager = ConfigManager()
+
+
 def mkdir(path):
     folder = os.path.exists(path)
     if not folder:
@@ -110,36 +117,41 @@ def initialize_config():
     config_manager.set('programSetting', 'cache_dir', client_cache_folder)
 
 
-config_manager = ConfigManager()
+def show_message_box(title, message, icon):
+    win32api.MessageBox(0, message, title, icon)
 
 
-def check_path(self, section, key, is_game_path):
+def check_path(self, section, key):
     path = config_manager.get(section, key)
-    if is_game_path:
-        if not os.path.isfile(path):
-            game_path, _ = QFileDialog.getOpenFileName(self, "选择游戏可执行文件", "", "Executable Files (*.exe)")
-            if game_path:
-                config_manager.set(section, key, game_path)
-                config = configparser.ConfigParser()
-                ini_path = os.path.join(game_path, '..', '..', '..', 'Saved', 'Config', 'WindowsNoEditor',
-                                        'GameUserSettings.ini')
-                config.read(ini_path)
 
-                resolutionsizex = config.getint('/Script/Engine.GameUserSettings', 'resolutionsizex', fallback=None)
-                resolutionsizey = config.getint('/Script/Engine.GameUserSettings', 'resolutionsizey', fallback=None)
-                fullscreenmode = config.getint('/Script/Engine.GameUserSettings', 'fullscreenmode', fallback=None)
+    def is_specific_file(file_path, directory, filename):
+        return os.path.isfile(file_path) and file_path.endswith(filename) and directory in file_path
 
-                if resolutionsizex is not None:
-                    config_manager.set(section, 'windows_size_width', str(resolutionsizex))
-                if resolutionsizey is not None:
-                    config_manager.set(section, 'windows_size_height', str(resolutionsizey))
-                if fullscreenmode is not None:
-                    config_manager.set(section, 'full_screen_mode', str(fullscreenmode))
-    else:
-        if not os.path.isdir(path):
-            path = QFileDialog.getExistingDirectory(self, "选择文件夹", "")
-            if path:
-                config_manager.set(section, key, path)
+    while not is_specific_file(path, 'Client-Win64-Shipping', 'Client-Win64-Shipping.exe'):
+        show_message_box('未指定游戏文件', '请选择游戏可执行文件：Client-Win64-Shipping.exe', win32con.MB_ICONINFORMATION)
+        game_path, _ = QFileDialog.getOpenFileName(self, "选择游戏可执行文件：Client-Win64-Shipping.exe", "", "Executable Files (*.exe)")
+        if game_path:
+            config_manager.set(section, key, game_path)
+            path = game_path  # 更新path以便循环条件能正确判断
+        else:
+            show_message_box('未指定游戏文件', '程序即将退出！', win32con.MB_ICONERROR)
+            time.sleep(2)
+            sys.exit(0)
+
+    config = configparser.ConfigParser()
+    ini_path = os.path.join(path, '..', '..', '..', 'Saved', 'Config', 'WindowsNoEditor', 'GameUserSettings.ini')
+    config.read(ini_path)
+
+    resolutionsizex = config.getint('/Script/Engine.GameUserSettings', 'resolutionsizex', fallback=None)
+    resolutionsizey = config.getint('/Script/Engine.GameUserSettings', 'resolutionsizey', fallback=None)
+    fullscreenmode = config.getint('/Script/Engine.GameUserSettings', 'fullscreenmode', fallback=None)
+
+    if resolutionsizex is not None:
+        config_manager.set(section, 'windows_size_width', str(resolutionsizex))
+    if resolutionsizey is not None:
+        config_manager.set(section, 'windows_size_height', str(resolutionsizey))
+    if fullscreenmode is not None:
+        config_manager.set(section, 'full_screen_mode', str(fullscreenmode))
 
     return config_manager.get(section, key)
 
