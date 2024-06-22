@@ -93,9 +93,11 @@ class ModTpFile {
         if list_name in json_files:
             list_content = json_files[list_name]
             for item in list_content:
-                item['id'] = current_id  # 更新ID值
+                item_copy = item.copy()
+                item_copy['id'] = current_id  # 更新ID值
+                item_copy['filename'] = 'all_in_one'  # 更新filename
                 current_id += 1
-            all_in_one_list.extend(list_content)
+                all_in_one_list.append(item_copy)
         else:
             print(f"Warning: {list_name}.json not found in the specified directory.")
 
