@@ -102,14 +102,18 @@ class ModTpFile {
     # 对 all_in_one 列表进行排序（假设按照 id 排序）
     all_in_one_list = sorted(all_in_one_list, key=lambda x: x['id'])
 
+    # 自定义JSON格式化函数，确保缩进格式正确
+    def format_json(data):
+        return json.dumps(data, ensure_ascii=False, indent=4).replace('\n', '\n    ')
+
     # 添加 all_in_one 列表作为第一个静态属性
-    combined_js_content += f'    static all_in_one = {json.dumps(all_in_one_list, ensure_ascii=False, indent=4)};\n'
+    combined_js_content += f'    static all_in_one = {format_json(all_in_one_list)};\n'
 
     # 添加其他静态属性
     for file_path in selected_files:
         list_name = os.path.splitext(os.path.basename(file_path))[0]
         if list_name in json_files:
-            list_content = json.dumps(json_files[list_name], ensure_ascii=False, indent=4)
+            list_content = format_json(json_files[list_name])
             combined_js_content += f'    static {list_name} = {list_content};\n'
 
     # 获取所有列表名，包括 all_in_one
