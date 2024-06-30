@@ -2,11 +2,13 @@
 
 > 哎呦，你干嘛~~
 
-## 只有IKun才知道的某某Game的Mod管理器
+## 只有IKun才知道的启动器
 
 # Features
 
 - [x] 启动参数设置
+
+- 账号切换
 
 - 窗口模式
 
@@ -20,15 +22,19 @@
 
 - 删除Mod
 
+- [x] Mod详情显示
+
+- [x] TP文件自定义
+
+- [x] 国际化
+
+- [x] 主题设置
+
 # In-Build
 
 - [ ] 双端转换（CN < -- > OS）
 
-- [x] TP文件自定义
-
 - [ ] 宏操作
-
-- [x] Mod详情显示
 
 # Install
 
@@ -40,7 +46,7 @@
 
 2. 双击启动
 
-3. 选择Client-Win64-Shipping.exe的路径，注意不是WuWa.exe的哦~~
+3. 选择 `Client-Win64-Shipping.exe` 的路径，注意不是WuWa.exe的哦~~
 
 # Build
 
@@ -57,17 +63,17 @@ pyinstaller --upx-dir "path/to/your/upx" main.spec
 
 # Preview
 
-> 没有全部使用Fluent-Widget，凑合着看吧，后期再优化
+> 
 
-![](https://cdn.jsdelivr.net/gh/Cey1anze/Blog_Images@main/pic/202406211459270.png)
+![](https://cdn.jsdelivr.net/gh/Cey1anze/Blog_Images@main/pic/202406302149774.png)
 
-![](https://cdn.jsdelivr.net/gh/Cey1anze/Blog_Images@main/pic/202406211511817.png)
+![](https://cdn.jsdelivr.net/gh/Cey1anze/Blog_Images@main/pic/202406302154207.png)
 
-![](https://cdn.jsdelivr.net/gh/Cey1anze/Blog_Images@main/pic/202406211511232.png)
+![](https://cdn.jsdelivr.net/gh/Cey1anze/Blog_Images@main/pic/202406302155277.png)
 
-![](https://cdn.jsdelivr.net/gh/Cey1anze/Blog_Images@main/pic/202406211512088.png)
+![](https://cdn.jsdelivr.net/gh/Cey1anze/Blog_Images@main/pic/202406302155170.png)
 
-![](https://cdn.jsdelivr.net/gh/Cey1anze/Blog_Images@main/pic/202406211512245.png)
+![](https://cdn.jsdelivr.net/gh/Cey1anze/Blog_Images@main/pic/202406302156653.png)
 
 # Contribute
 
