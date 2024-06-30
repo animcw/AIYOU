@@ -14,16 +14,20 @@
    <string>modManager</string>
   </property>
   <property name="styleSheet">
-   <string notr="true">border: 1px soild transparent;
-border-radius:10px;
-background-color:#f3f3f2;
-</string>
+   <string notr="true">QWidget#modWindow{
+	border: 1px soild transparent;
+	border-radius:10px;	
+	background-color: transparent;
+}</string>
   </property>
-  <layout class="QVBoxLayout" name="verticalLayout_2" stretch="1,1,7,1">
+  <layout class="QVBoxLayout" name="verticalLayout_2" stretch="1,7,1">
    <item>
     <widget class="QFrame" name="selectBox">
      <property name="styleSheet">
-      <string notr="true">PushButton{
+      <string notr="true">QFrame{
+	background-color: transparent;
+}
+PushButton{
 	font: 10pt &quot;微软雅黑&quot;;
 }</string>
      </property>
@@ -38,10 +42,10 @@ background-color:#f3f3f2;
        <number>0</number>
       </property>
       <property name="leftMargin">
-       <number>0</number>
+       <number>9</number>
       </property>
       <property name="rightMargin">
-       <number>0</number>
+       <number>9</number>
       </property>
       <item>
        <spacer name="horizontalSpacer">
@@ -59,7 +63,7 @@ background-color:#f3f3f2;
       <item>
        <widget class="PushButton" name="selectDownload">
         <property name="text">
-         <string>选择下载文件夹</string>
+         <string>Select Download Folder</string>
         </property>
        </widget>
       </item>
@@ -78,42 +82,14 @@ background-color:#f3f3f2;
       </item>
       <item>
        <widget class="PushButton" name="openModFolder">
-        <property name="text">
-         <string>打开Mod文件夹</string>
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Minimum" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
         </property>
-       </widget>
-      </item>
-     </layout>
-    </widget>
-   </item>
-   <item>
-    <widget class="QFrame" name="folderTextBox">
-     <property name="styleSheet">
-      <string notr="true">QLabel{
-	font: 500 11pt &quot;微软雅黑&quot;;
-}</string>
-     </property>
-     <property name="frameShape">
-      <enum>QFrame::StyledPanel</enum>
-     </property>
-     <property name="frameShadow">
-      <enum>QFrame::Raised</enum>
-     </property>
-     <layout class="QHBoxLayout" name="horizontalLayout_4" stretch="1,1">
-      <property name="spacing">
-       <number>16</number>
-      </property>
-      <item>
-       <widget class="QLabel" name="downloadLabel">
         <property name="text">
-         <string>下载文件夹</string>
-        </property>
-       </widget>
-      </item>
-      <item>
-       <widget class="QLabel" name="ModLabel">
-        <property name="text">
-         <string>Mod文件夹</string>
+         <string>Open Mod Folder</string>
         </property>
        </widget>
       </item>
@@ -123,7 +99,9 @@ background-color:#f3f3f2;
    <item>
     <widget class="QFrame" name="folderBox">
      <property name="styleSheet">
-      <string notr="true"/>
+      <string notr="true">QFrame{
+	background-color: transparent;
+}</string>
      </property>
      <property name="frameShape">
       <enum>QFrame::StyledPanel</enum>
@@ -171,7 +149,10 @@ background-color:#f3f3f2;
    <item>
     <widget class="QFrame" name="confirmBox">
      <property name="styleSheet">
-      <string notr="true">PushButton{
+      <string notr="true">QFrame{
+	background-color: transparent;
+}
+PushButton{
 	font: 10pt &quot;微软雅黑&quot;;
 }
 PrimaryPushButton{
@@ -189,10 +170,10 @@ PrimaryPushButton{
        <number>0</number>
       </property>
       <property name="leftMargin">
-       <number>0</number>
+       <number>9</number>
       </property>
       <property name="rightMargin">
-       <number>0</number>
+       <number>9</number>
       </property>
       <item>
        <spacer name="horizontalSpacer_2">
@@ -210,7 +191,7 @@ PrimaryPushButton{
       <item>
        <widget class="PrimaryPushButton" name="confirmButton">
         <property name="text">
-         <string>添   加</string>
+         <string>Add</string>
         </property>
        </widget>
       </item>
@@ -230,7 +211,7 @@ PrimaryPushButton{
       <item>
        <widget class="PushButton" name="refreshButton">
         <property name="text">
-         <string>刷  新</string>
+         <string>Refresh</string>
         </property>
        </widget>
       </item>
@@ -250,7 +231,7 @@ PrimaryPushButton{
       <item>
        <widget class="PushButton" name="deleteButton">
         <property name="text">
-         <string>删  除</string>
+         <string>Delete</string>
         </property>
        </widget>
       </item>

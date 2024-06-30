@@ -1,4 +1,3 @@
-# coding: utf-8
 import os.path
 
 from PyQt5.QtCore import QSize
@@ -7,13 +6,12 @@ from PyQt5.QtWidgets import QApplication
 from qfluentwidgets import FluentIcon as FIF
 from qfluentwidgets import NavigationItemPosition, MSFluentWindow, SplashScreen
 
-from app.common.config import cfg
+from app.common.config import cfg, fku_pyinstaller, restart_program
 from app.common.signal_bus import signalBus
 from app.util.config_modify import *
-from app.view.aboutInterface import aboutPageInterface
-from app.view.clientSwitchInterface import clientSwitchPageInterface
+from app.view.gameSetting_interface import gameSettingInterface
 from app.view.modManagerInterface import modManagerPageInterface
-from app.view.settingInterface import settingPageInterface
+from app.view.setting_interface import SettingInterface
 from app.view.TPFileManagerInterface import TPFileManagerPageInterface
 
 
@@ -21,19 +19,18 @@ class MainWindow(MSFluentWindow):
 
     def __init__(self):
         super().__init__()
+        fku_pyinstaller()
+        initialize_config(self)
+        appdata = cfg.get(cfg.dataFolder)
+        if not appdata:
+            restart_program()
         self.initWindow()
 
-        initialize_config()
-        check_path(self, 'gameSetting', 'game_path')
-        check_update(self, False)
-
         # TODO: create sub interface
-        # self.homeInterface = HomeInterface(self)
-        self.clientSwitchInterface = clientSwitchPageInterface(self)
-        self.aboutInterface = aboutPageInterface(self)
+        self.gameSettingInterface = gameSettingInterface(self)
         self.modManagerInterface = modManagerPageInterface(self)
         self.TPFileManagerInterface = TPFileManagerPageInterface(self)
-        self.settingInterface = settingPageInterface(self)
+        self.settingInterface = SettingInterface(self)
 
         self.connectSignalToSlot()
 
@@ -44,26 +41,23 @@ class MainWindow(MSFluentWindow):
         signalBus.micaEnableChanged.connect(self.setMicaEffectEnabled)
 
     def initNavigation(self):
-
         # TODO: add navigation items
-        # self.addSubInterface(self.homeInterface, FIF.HOME, self.tr('Home'))
-        self.addSubInterface(self.clientSwitchInterface, FIF.GAME, self.tr('启动设置'))
-        self.addSubInterface(self.modManagerInterface, FIF.DICTIONARY, self.tr('Mod管理'))
-        self.addSubInterface(self.TPFileManagerInterface, FIF.TRAIN, self.tr('TP文件管理'))
-        self.addSubInterface(self.aboutInterface, FIF.INFO, self.tr('关于'), position=NavigationItemPosition.BOTTOM)
-        self.addSubInterface(self.settingInterface, FIF.SETTING, self.tr('设置'), position=NavigationItemPosition.BOTTOM)
+        self.addSubInterface(self.gameSettingInterface, FIF.GAME, self.tr('Game'))
+        self.addSubInterface(self.modManagerInterface, FIF.DICTIONARY, self.tr('Mod'))
+        self.addSubInterface(self.TPFileManagerInterface, FIF.TRAIN, self.tr('TP Files'))
+        self.addSubInterface(self.settingInterface, FIF.SETTING, self.tr('Setting'),
+                             position=NavigationItemPosition.BOTTOM)
 
         self.splashScreen.finish()
 
     def initWindow(self):
         icon = os.path.join(os.path.dirname(__file__), '..', 'resource', 'images', 'ikun-logo.png')
-        self.resize(900, 600)
-        self.setMinimumWidth(900)
+        self.resize(1000, 600)
+        self.setMinimumWidth(1000)
         self.setWindowIcon(QIcon(icon))
         self.setWindowTitle('AIYOU')
 
         self.setCustomBackgroundColor(QColor(240, 244, 249), QColor(32, 32, 32))
-        self.setMicaEffectEnabled(cfg.get(cfg.micaEnabled))
 
         # create splash screen
         self.splashScreen = SplashScreen(self.windowIcon(), self)

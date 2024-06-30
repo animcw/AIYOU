@@ -1,199 +1,151 @@
 import configparser
+import json
 import os
 import sys
 import time
 
 import win32api
 import win32con
-
 from PyQt5.QtCore import QUrl
 from PyQt5.QtGui import QDesktopServices
 from PyQt5.QtWidgets import QFileDialog
 from qfluentwidgets import MessageBox
 
+from app.common.config import VERSION, RELEASE_URL, json_data
 from app.util.UI_general_method import show_info_bar
 from app.util.requests_general import get_version_data
 
 
-def resource_path(relative_path):
-    """获取资源的绝对路径（处理 PyInstaller 打包后的路径问题）"""
-    try:
-        base_path = sys._MEIPASS
-    except Exception:
-        base_path = os.path.abspath(".")
+def initialize_config(self):
+    """
+    update json with program and game settings
+    """
 
-    return os.path.join(base_path, relative_path)
+    app_data_folder = os.path.join(os.getcwd(), 'AppData')
+    client_cache_folder = os.path.join(os.getcwd(), 'ServerCache')
+    config_path = os.path.join(app_data_folder, "config.json")
 
+    update_json(config_path, "Folders.AppData", app_data_folder)
+    update_json(config_path, "Folders.Cache", client_cache_folder)
 
-class ConfigManager:
-    _instance = None
-    _config_file = None
+    path = read_config_json(config_path, "GameSetting.GamePath")
 
-    def __new__(cls, *args, **kwargs):
+    def is_specific_file(file_path, directory, filename):
+        return os.path.isfile(file_path) and file_path.endswith(filename) and directory in file_path
 
-        if cls._instance is None:
-            cls._instance = super(ConfigManager, cls).__new__(cls)
-            cls._instance._initialized = False
-        return cls._instance
-
-    def init_config(self, config_file):
-        if not self._initialized:
-            self.config = configparser.ConfigParser()
-            self.config_file = config_file
-            self.read_config()
-            self._initialized = True
-
-    def read_config(self):
-        if os.path.exists(self.config_file):
-            self.config.read(self.config_file)
+    while not is_specific_file(path, 'Client-Win64-Shipping', 'Client-Win64-Shipping.exe'):
+        show_message_box('No Game Executable File Selected',
+                         'Please Select Game Executable File：Client-Win64-Shipping.exe',
+                         win32con.MB_ICONINFORMATION)
+        game_path, _ = QFileDialog.getOpenFileName(self,
+                                                   "Select Game Executable File：Client-Win64-Shipping.exe",
+                                                   "",
+                                                   "Executable Files (*.exe)")
+        if game_path:
+            update_json(os.path.join(app_data_folder, "config.json"), "GameSetting.GamePath", game_path)
+            path = game_path  # 更新path以便循环条件能正确判断
         else:
-            raise FileNotFoundError(f"{self.config_file} does not exist.")
+            show_message_box('No Game Executable File Selected', 'Program Is About To Exit！', win32con.MB_ICONERROR)
+            time.sleep(2)
+            sys.exit(0)
 
-    def get(self, section, key):
-        return self.config.get(section, key)
+    ini_path = os.path.join(path, '..', '..', '..', 'Saved', 'Config', 'WindowsNoEditor', 'GameUserSettings.ini')
 
-    def set(self, section, key, value):
-        if not self.config.has_section(section):
-            self.config.add_section(section)
-        self.config.set(section, key, value)
-        with open(self.config_file, 'w', encoding='utf-8') as configfile:
-            self.config.write(configfile)
-
-    def get_all(self):
-
-        return {section: dict(self.config.items(section)) for section in self.config.sections()}
-
-
-config_manager = ConfigManager()
-
-
-def mkdir(path):
-    folder = os.path.exists(path)
-    if not folder:
-        os.makedirs(path)
-
-
-def create_ini(config_file, sections):
     config = configparser.ConfigParser()
-    for section, options in sections.items():
-        config[section] = options
-    with open(config_file, 'w') as configfile:
-        config.write(configfile)
+    config.read(ini_path)
+
+    resolutionsizex = config.getint('/Script/Engine.GameUserSettings', 'resolutionsizex', fallback=None)
+    resolutionsizey = config.getint('/Script/Engine.GameUserSettings', 'resolutionsizey', fallback=None)
+    fullscreenmode = config.getint('/Script/Engine.GameUserSettings', 'fullscreenmode', fallback=None)
+    account = json_data['last_login_cuid']
+
+    if resolutionsizex is not None and resolutionsizey is not None:
+        update_json(config_path,
+                    "GameSetting.Resolution",
+                    f"{resolutionsizex}x{resolutionsizey}")
+    if fullscreenmode is not None:
+        update_json(config_path, "GameSetting.FullScreenMode", fullscreenmode)
+    if account != "":
+        update_json(config_path, "GameSetting.lastLogin", int(account))
+    else:
+        update_json(config_path, "GameSetting.lastLogin", "")
 
 
-def initialize_config():
-    current_directory = os.getcwd()
-    app_data_folder = os.path.join(current_directory, 'AppData')
-    tool_folder = os.path.join(app_data_folder, 'Tools')
-    client_cache_folder = os.path.join(current_directory, 'ServerCache')
-    unpaked_TP_file_folder = os.path.join(app_data_folder, 'custom_TP_file')
-    single_tp_file_cache_folder = os.path.join(unpaked_TP_file_folder, 'Single_TP_file_cache')
-    saved_TP_file_folder = os.path.join(unpaked_TP_file_folder, 'saved_custom_TP_file')
+def resource_path(relative_path):
+    """ Get the absolute path to the resource, works for both dev and PyInstaller """
+    if hasattr(sys, '_MEIPASS'):
+        return os.path.join(sys._MEIPASS, relative_path)
+    return os.path.join(os.path.abspath("."), relative_path)
 
-    mkdir(app_data_folder)
-    mkdir(client_cache_folder)
-    mkdir(tool_folder)
-    mkdir(unpaked_TP_file_folder)
-    mkdir(single_tp_file_cache_folder)
-    mkdir(saved_TP_file_folder)
 
-    config_file = os.path.join(app_data_folder, 'config.ini')
+def read_config_json(json_file, key_path):
+    try:
+        # 读取 JSON 文件
+        with open(json_file, 'r', encoding='utf-8') as f:
+            data = json.load(f)
 
-    if not os.path.exists(config_file):
-        sections = {
-            'gameSetting': {'game_path': '', 'client_version': '', 'is_load_mod': 0, 'full_screen_mode': '',
-                            'windows_size_width': '',
-                            'windows_size_height': ''},
-            'programSetting': {'root_dir': '', 'data_dir': '', 'cache_dir': '',
-                               'mod_download_dir': 'C:\\Users',
-                               'mod_description_dir': 'https://gitee.com/wxdxyyds/aiyou_-translate/raw/master/modDescription.json'}
-        }
-        create_ini(config_file, sections)
+        # 使用 key_path 来访问要修改的项
+        keys = key_path.split('.')
+        current = data
+        for key in keys:
+            current = current[key]
 
-    config_manager = ConfigManager()
-    config_manager.init_config(config_file)
-    config_manager.set('programSetting', 'root_dir', current_directory)
-    config_manager.set('programSetting', 'data_dir', app_data_folder)
-    config_manager.set('programSetting', 'cache_dir', client_cache_folder)
+        return str(current)
+
+    except FileNotFoundError:
+        show_message_box('Error', f'Config file： {json_file} was not found', win32con.MB_ICONERROR)
+    except json.JSONDecodeError:
+        show_message_box('Error', f'Config Parsing error：{json_file}', win32con.MB_ICONERROR)
+    except KeyError:
+        show_message_box('Error', f'The key： {key_path} is invalid', win32con.MB_ICONERROR)
+
+
+def update_json(json_file, key_path, new_value):
+    try:
+        # 读取 JSON 文件
+        with open(json_file, 'r', encoding='utf-8') as f:
+            data = json.load(f)
+
+        # 使用 key_path 来访问要修改的项
+        keys = key_path.split('.')
+        current = data
+        for key in keys[:-1]:
+            current = current[key]
+
+        # 更新指定的项
+        current[keys[-1]] = new_value
+
+        # 将更新后的内容写回 JSON 文件
+        with open(json_file, 'w', encoding='utf-8') as f:
+            json.dump(data, f, ensure_ascii=False, indent=4)
+
+    except FileNotFoundError:
+        show_message_box('Error', f'Config file： {json_file} was not found', win32con.MB_ICONERROR)
+    except json.JSONDecodeError:
+        show_message_box('Error', f'Config Parsing error：{json_file}', win32con.MB_ICONERROR)
+    except KeyError:
+        show_message_box('Error', f'The key： {key_path} is invalid', win32con.MB_ICONERROR)
 
 
 def show_message_box(title, message, icon):
     win32api.MessageBox(0, message, title, icon)
 
 
-def check_path(self, section, key):
-    path = config_manager.get(section, key)
-
-    def is_specific_file(file_path, directory, filename):
-        return os.path.isfile(file_path) and file_path.endswith(filename) and directory in file_path
-
-    while not is_specific_file(path, 'Client-Win64-Shipping', 'Client-Win64-Shipping.exe'):
-        show_message_box('未指定游戏文件', '请选择游戏可执行文件：Client-Win64-Shipping.exe', win32con.MB_ICONINFORMATION)
-        game_path, _ = QFileDialog.getOpenFileName(self, "选择游戏可执行文件：Client-Win64-Shipping.exe", "", "Executable Files (*.exe)")
-        if game_path:
-            config_manager.set(section, key, game_path)
-            path = game_path  # 更新path以便循环条件能正确判断
-        else:
-            show_message_box('未指定游戏文件', '程序即将退出！', win32con.MB_ICONERROR)
-            time.sleep(2)
-            sys.exit(0)
-
-    config = configparser.ConfigParser()
-    ini_path = os.path.join(path, '..', '..', '..', 'Saved', 'Config', 'WindowsNoEditor', 'GameUserSettings.ini')
-    config.read(ini_path)
-
-    resolutionsizex = config.getint('/Script/Engine.GameUserSettings', 'resolutionsizex', fallback=None)
-    resolutionsizey = config.getint('/Script/Engine.GameUserSettings', 'resolutionsizey', fallback=None)
-    fullscreenmode = config.getint('/Script/Engine.GameUserSettings', 'fullscreenmode', fallback=None)
-
-    if resolutionsizex is not None:
-        config_manager.set(section, 'windows_size_width', str(resolutionsizex))
-    if resolutionsizey is not None:
-        config_manager.set(section, 'windows_size_height', str(resolutionsizey))
-    if fullscreenmode is not None:
-        config_manager.set(section, 'full_screen_mode', str(fullscreenmode))
-
-    return config_manager.get(section, key)
-
-
-# create_ini('../../AppData/config.ini', sections)
-
-def check_update(self, is_button_clicked):
-    file_path = resource_path('AppData/version')
-    current_version = read_version_from_file(file_path)
+def checkUpdate(self):
     version_json = get_version_data()
     online_version = version_json.get('version', '0.0.0')
-    version_status = compare_versions(online_version, current_version)
+    version_status = compare_versions(online_version, VERSION)
     if not version_status:
-        if is_button_clicked:
-            show_update_box(self)
-        else:
-            show_info_bar(self, 'warning', '发现新版本', '请尽快前往更新')
+        show_info_bar(self, 'warning', '发现新版本', '请尽快前往更新')
+        show_update_box(self)
     else:
         show_info_bar(self, 'success', '当前已是最新版本', '')
 
 
-def read_version_from_file(file_path):
-    version = '0.0.0'
-    try:
-        with open(file_path, 'r', encoding='utf-8') as file:
-            for line in file:
-                if line.startswith("version:"):
-                    version = line.split(":")[1].strip()
-                    break
-    except FileNotFoundError:
-        print(f"The file {file_path} does not exist.")
-    except Exception as e:
-        print(f"An error occurred: {e}")
-
-    return version
-
-
 def show_update_box(self):
-    release_url = 'https://github.com/LittleBlackOfKUN/AIYOU/releases'
     w = MessageBox("发现新版本", "点击前往更新~~", self)
     if w.exec():
-        QDesktopServices.openUrl(QUrl(release_url))
+        QDesktopServices.openUrl(QUrl(RELEASE_URL))
 
 
 def compare_versions(version1, version2):

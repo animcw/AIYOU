@@ -7,6 +7,7 @@ from PyQt5.QtWidgets import QApplication
 from qfluentwidgets import FluentTranslator
 
 from app.common.config import cfg
+from app.util.config_modify import resource_path
 from app.view.main_window import MainWindow
 
 # enable dpi scale
@@ -26,7 +27,7 @@ app.setAttribute(Qt.AA_DontCreateNativeWidgetSiblings)
 locale = cfg.get(cfg.language).value
 translator = FluentTranslator(locale)
 galleryTranslator = QTranslator()
-galleryTranslator.load(locale, "app", ".", ":/app/i18n")
+galleryTranslator.load(locale, "app", ".", resource_path("app/resource/i18n"))
 
 app.installTranslator(translator)
 app.installTranslator(galleryTranslator)

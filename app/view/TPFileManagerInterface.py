@@ -5,11 +5,11 @@ import subprocess
 from PyQt5.QtWidgets import QWidget, QFileDialog
 from qfluentwidgets import InfoBarIcon, FlyoutAnimationType
 
+from app.common.config import cfg, mkdir
 from app.resource.Pages.TPFileManager import Ui_TPfileWindow
 from app.util.TP_manager import *
 from app.util.UI_general_method import *
-from app.util.config_modify import mkdir, resource_path
-from app.util.get_path import *
+from app.util.config_modify import resource_path, update_json, read_config_json
 
 
 class TPFileManagerPageInterface(QWidget, Ui_TPfileWindow):
@@ -18,11 +18,18 @@ class TPFileManagerPageInterface(QWidget, Ui_TPfileWindow):
         super().__init__(parent=parent)
         self.setupUi(self)
 
-        # TODO 命名有点混乱，需要重构
-        game_path = get_game_path()
+        game_path = cfg.get(cfg.gamePath.value)
+        app_data_path = cfg.get(cfg.dataFolder)
+        self.config_path = os.path.join(os.getcwd(), 'AppData', 'config.json')
         self.mod_path = os.path.join(game_path, '..', '..', '..', 'Content', 'Paks', '~mod')
-        app_data_path = get_data_path()
-        self.mod_download_path = get_mod_download_path()
+        self.mod_download_path = cfg.get(cfg.modDownloadFolder)
+
+        # 解析的js路径
+        self.unpaked_TP_file_path = os.path.join(app_data_path, 'custom_TP_file')
+        # 解析的单列表路径
+        self.single_tp_file_cache_path = os.path.join(self.unpaked_TP_file_path, 'Single_TP_file_cache')
+        # 生成的自定义js路径
+        self.saved_TP_file_path = os.path.join(self.unpaked_TP_file_path, 'saved_custom_TP_file', 'ModTpFile.js')
 
         # 工具路径
         self.tool_path = os.path.join(app_data_path, 'Tools')
@@ -36,18 +43,11 @@ class TPFileManagerPageInterface(QWidget, Ui_TPfileWindow):
         if not os.path.exists(os.path.join(self.tool_path, 'UnrealPakTool')):
             unzip_file(unpak_zip_path, self.tool_path)
 
-        # 解析的js路径
-        self.unpaked_TP_file_path = os.path.join(app_data_path, 'custom_TP_file')
-        # 解析的单列表路径
-        self.single_tp_file_cache_path = os.path.join(self.unpaked_TP_file_path, 'Single_TP_file_cache')
-        # 生成的自定义js路径
-        self.saved_TP_file_path = os.path.join(self.unpaked_TP_file_path, 'saved_custom_TP_file', 'ModTpFile.js')
-
         self.downloadFolder.setHeaderHidden(True)
         self.customTPFolder.setHeaderHidden(True)
 
-        refresh_folder(self.downloadFolder, self.mod_download_path, self.analysisButton, '.pak')
-        refresh_folder(self.customTPFolder, self.single_tp_file_cache_path, self.confirmButton, '.json')
+        refresh_folder(self.downloadFolder, self.mod_download_path, '.pak')
+        refresh_folder(self.customTPFolder, self.single_tp_file_cache_path, '.json')
 
         self.downloadFolder.itemChanged.connect(self.update_analysis_button_state)
         self.customTPFolder.itemChanged.connect(self.update_confirm_button_state)
@@ -62,7 +62,7 @@ class TPFileManagerPageInterface(QWidget, Ui_TPfileWindow):
         self.update_analysis_button_state()
 
     def show_how_to_use(self):
-        show_flyout(self, InfoBarIcon.INFORMATION, '使用方法', '1.“选择下载文件夹”（定位到想解构的TP文件目录）\n2.选中TP文件，点击“解析TP文件”\n3.选择你想组合的TP内容\n4.点击生成自定义TP文件，程序将自动在mod目录下生成自定义传送文件（saved_custom_TP_file.pak）', self.usageButton, FlyoutAnimationType.PULL_UP)
+        show_flyout(self, InfoBarIcon.INFORMATION, self.tr('Usage'), self.tr('1.Select the folder where the tp file is located\n2.Select the TP file and click "Analysis TP File"\n3.Select the TP content you want to combine\n4.Click Generate Custom TP File, the program will automatically generate a custom TP file in the mod directory（saved_custom_TP_file.pak）'), self.usageButton, FlyoutAnimationType.PULL_UP)
 
     def update_confirm_button_state(self):
         update_button_state(self.customTPFolder, self.confirmButton)
@@ -71,10 +71,11 @@ class TPFileManagerPageInterface(QWidget, Ui_TPfileWindow):
         update_button_state(self.downloadFolder, self.analysisButton)
 
     def download_folder_selector(self):
-        path = QFileDialog.getExistingDirectory(self, "选择文件夹", "")
+        path = QFileDialog.getExistingDirectory(self, self.tr("Select Folder"), "")
         if path:
-            set_mod_download_path(path)
-            refresh_folder(self.downloadFolder, path, self.analysisButton, '.pak')
+            update_json(self.config_path, "Folders.modDownload", path)
+            refresh_folder(self.downloadFolder, path, '.pak')
+            self.update_analysis_button_state()
 
     def unpack(self):
         selected_paths = []
@@ -89,11 +90,12 @@ class TPFileManagerPageInterface(QWidget, Ui_TPfileWindow):
                     # Please standardize the format of nested dictionaries in the list,
                     # otherwise I have to write special methods to handle them.：<
                     handle_TP_lists(TP_file, self.single_tp_file_cache_path)
-                    refresh_folder(self.customTPFolder, self.single_tp_file_cache_path, self.confirmButton, '.json')
+                    refresh_folder(self.customTPFolder, self.single_tp_file_cache_path, '.json')
+                    self.update_confirm_button_state()
                 else:
-                    show_info_bar(self, 'error', '出错了', '')
+                    show_info_bar(self, 'error', self.tr('Unpack TP file failed'), '')
         else:
-            show_info_bar(self, 'error', '出错了', '只能选择一个TP文件！')
+            show_info_bar(self, 'error', self.tr('Something is wrong'), self.tr('Only one TP file can be selected!'))
 
     def repak(self):
         # repak路径要求
@@ -116,9 +118,9 @@ class TPFileManagerPageInterface(QWidget, Ui_TPfileWindow):
             command = [self.repak_exe_path, 'pack', repak_path]
             result = subprocess.run(command)
             if result.returncode == 0:
-                show_info_bar(self, 'success', '生成成功', '')
+                show_info_bar(self, 'success', self.tr('successfully Generated'), '')
                 repaked = os.path.join(self.unpaked_TP_file_path, 'saved_custom_TP_file.pak')
                 shutil.copy(repaked, self.mod_path)
                 shutil.rmtree(self.unpaked_TP_file_path)
         except Exception as e:
-            show_info_bar(self, 'error', '错误！', f'{e}')
+            show_info_bar(self, 'error', self.tr('Something is wrong'), f'{e}')

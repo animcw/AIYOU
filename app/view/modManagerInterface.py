@@ -5,10 +5,10 @@ from PyQt5.QtGui import QDesktopServices
 from PyQt5.QtWidgets import QWidget, QFileDialog
 from qfluentwidgets import MessageBox, InfoBarIcon, FlyoutAnimationType
 
+from app.common.config import cfg, mkdir
 from app.resource.Pages.modManager import Ui_modWindow
 from app.util.UI_general_method import *
-from app.util.config_modify import mkdir
-from app.util.get_path import *
+from app.util.config_modify import update_json
 from app.util.requests_general import *
 
 
@@ -18,10 +18,10 @@ class modManagerPageInterface(QWidget, Ui_modWindow):
         super().__init__(parent=parent)
         self.setupUi(self)
 
-        mod_description_path = get_description_path()
-        self.mod_description = load_description(mod_description_path)
-        self.mod_download_path = get_mod_download_path()
-        game_path = get_game_path()
+        self.mod_description = load_description()
+        self.mod_download_path = cfg.get(cfg.modDownloadFolder)
+        self.config_path = os.path.join(os.getcwd(), 'AppData', 'config.json')
+        game_path = cfg.get(cfg.gamePath.value)
         self.mod_path = os.path.join(game_path, '..', '..', '..', 'Content', 'Paks', '~mod')
 
         mkdir(self.mod_path)
@@ -29,46 +29,58 @@ class modManagerPageInterface(QWidget, Ui_modWindow):
         self.downloadFolder.setHeaderHidden(True)
         self.modFolder.setHeaderHidden(True)
 
-        refresh_folder(self.downloadFolder, self.mod_download_path, self.deleteButton, '.pak')
-        refresh_folder(self.modFolder, self.mod_path, self.deleteButton, '.pak')
+        refresh_folder(self.downloadFolder, self.mod_download_path, '.pak')
+        refresh_folder(self.modFolder, self.mod_path, '.pak')
 
         self.selectDownload.clicked.connect(self.download_folder_selector)
         self.openModFolder.clicked.connect(self.open_mod_folder)
         self.confirmButton.clicked.connect(self.copy_selected_mod)
-        self.refreshButton.clicked.connect(self.refresh_all)
         self.deleteButton.clicked.connect(self.delete_mods)
+        self.refreshButton.clicked.connect(self.refresh_all)
 
         self.modFolder.itemSelectionChanged.connect(self.show_mod_description_mod_folder)
         self.downloadFolder.itemSelectionChanged.connect(self.show_mod_description_download_folder)
 
         self.modFolder.itemChanged.connect(self.update_delete_button_state)
+        self.downloadFolder.itemChanged.connect(self.update_add_button_state)
 
+        self.update_add_button_state()
         self.update_delete_button_state()
 
     def update_delete_button_state(self):
         update_button_state(self.modFolder, self.deleteButton)
 
+    def update_add_button_state(self):
+        update_button_state(self.downloadFolder, self.confirmButton)
+
+    def refresh_all(self):
+        try:
+            refresh_folder(self.downloadFolder, self.mod_download_path, '.pak')
+            refresh_folder(self.modFolder, self.mod_path, '.pak')
+            self.update_add_button_state()
+            self.update_delete_button_state()
+            show_info_bar(self, 'success', self.tr('Refresh success!'), '')
+        except Exception as e:
+            print(e)
+
     def download_folder_selector(self):
-        path = QFileDialog.getExistingDirectory(self, "选择文件夹", "")
+        path = QFileDialog.getExistingDirectory(self, self.tr("Select Folder"), "")
         if path:
-            set_mod_download_path(path)
-            refresh_folder(self.downloadFolder, path, self.deleteButton, '.pak')
+            update_json(self.config_path, "Folders.modDownload", path)
+            refresh_folder(self.downloadFolder, path, '.pak')
 
     def open_mod_folder(self):
         QDesktopServices.openUrl(QUrl.fromLocalFile(self.mod_path))
 
-    def refresh_all(self):
-        self.mod_download_path = get_mod_download_path()
-        refresh_folder(self.downloadFolder, self.mod_download_path, self.deleteButton, '.pak')
-        refresh_folder(self.modFolder, self.mod_path, self.deleteButton, '.pak')
-        show_info_bar(self, 'success', '刷新成功！', '＼(＾O＾)／')
-
     def delete_mods(self):
-        title = '你想好要删除选中的mod了吗？'
-        content = """删除某些mod会导致部分功能无法使用，甚至导致游戏无法正常运行。"""
+        title = self.tr("Do you want to delete the selected mod?")
+        content = self.tr("Deleting some mods will make some functions unavailable, and even cause the game to not run normally.")
         w = MessageBox(title, content, self)
         if w.exec():
-            self.delete_selected_mods()
+            try:
+                self.delete_selected_mods()
+            except Exception as e:
+                print(str(e))
 
     def copy_selected_mod(self):
         selected_paths = []
@@ -78,16 +90,17 @@ class modManagerPageInterface(QWidget, Ui_modWindow):
                 for path in selected_paths:
                     try:
                         shutil.copy(path, self.mod_path)
-                        show_info_bar(self, 'success', '添加成功！', '快启动游戏看看吧~~')
+                        show_info_bar(self, 'success', self.tr('Added successfully!'), '')
                     except shutil.Error as e:
                         if "same file" in str(e):
-                            show_info_bar(self, 'error', '添加失败！', '存在同名文件(；′⌒`)')
+                            show_info_bar(self, 'error', self.tr('Add failed!'), self.tr('File with same name exists(；′⌒`)'))
                         else:
-                            show_info_bar(self, 'error', '添加失败！', f"无法复制 {path}: {e}")
+                            show_info_bar(self, 'error', self.tr('Add failed!'), self.tr(f"Unable to copy {path}: {e}"))
                     except Exception as e:
-                        show_info_bar(self, 'error', '添加失败！', f"无法复制 {path}: {e}")
+                        show_info_bar(self, 'error', self.tr('Add failed!'), self.tr(f"Unable to copy {path}: {e}"))
 
-        refresh_folder(self.modFolder, self.mod_path, self.deleteButton, '.pak')
+        refresh_folder(self.modFolder, self.mod_path, '.pak')
+        self.update_add_button_state()
 
     def delete_selected_mods(self):
         selected_paths = []
@@ -95,10 +108,11 @@ class modManagerPageInterface(QWidget, Ui_modWindow):
         for path in selected_paths:
             try:
                 os.remove(path)
-                show_info_bar(self, 'success', '删除成功！', '哎呦，你干嘛Σ(°ロ°)')
+                show_info_bar(self, 'success', self.tr('Deleted successfully!'), '')
             except Exception as e:
-                show_info_bar(self, 'error', '删除失败！', f"无法删除 {path}: {e}")
-        refresh_folder(self.modFolder, self.mod_path, self.deleteButton, '.pak')
+                show_info_bar(self, 'error', self.tr('Delete failed!'), self.tr(f"Unable to delete {path}: {e}"))
+        refresh_folder(self.modFolder, self.mod_path, '.pak')
+        self.update_delete_button_state()
 
     def show_mod_description_mod_folder(self):
         selected_items = self.modFolder.selectedItems()

@@ -17,12 +17,17 @@
    <string notr="true">QFrame#mainBody{
 	border: 1px soild transparent;
 	border-radius:10px;
-	background-color:#f3f3f2;
+	background-color:transparent;
 }</string>
   </property>
   <layout class="QVBoxLayout" name="verticalLayout_2">
    <item>
     <widget class="QFrame" name="mainBody">
+     <property name="styleSheet">
+      <string notr="true">QFrame{
+	background-color: transparent;
+}</string>
+     </property>
      <property name="frameShape">
       <enum>QFrame::StyledPanel</enum>
      </property>
@@ -45,7 +50,10 @@
       <item>
        <widget class="QFrame" name="usageBox">
         <property name="styleSheet">
-         <string notr="true">PushButton#usageButton{
+         <string notr="true">QFrame{
+	background-color: transparent;
+}
+PushButton#usageButton{
 	font: 10pt &quot;微软雅黑&quot;;
 }
 PushButton#selectFolderButton{
@@ -66,15 +74,15 @@ PushButton#analysisButton{
           <number>0</number>
          </property>
          <property name="leftMargin">
-          <number>0</number>
+          <number>9</number>
          </property>
          <property name="rightMargin">
-          <number>0</number>
+          <number>9</number>
          </property>
          <item>
           <widget class="PushButton" name="usageButton">
            <property name="text">
-            <string>使 用 方 法</string>
+            <string>Usage</string>
            </property>
           </widget>
          </item>
@@ -94,7 +102,7 @@ PushButton#analysisButton{
          <item>
           <widget class="PushButton" name="selectFolderButton">
            <property name="text">
-            <string>选择下载文件夹</string>
+            <string>Select Download Folder</string>
            </property>
           </widget>
          </item>
@@ -114,7 +122,7 @@ PushButton#analysisButton{
          <item>
           <widget class="PushButton" name="analysisButton">
            <property name="text">
-            <string>解析TP文件</string>
+            <string>Analysis TP File</string>
            </property>
           </widget>
          </item>
@@ -166,7 +174,10 @@ PushButton#analysisButton{
       <item>
        <widget class="QFrame" name="bottomBox">
         <property name="styleSheet">
-         <string notr="true">PushButton#deleteButton{
+         <string notr="true">QFrame{
+	background-color: transparent;
+}
+PushButton#deleteButton{
 	font: 10pt &quot;微软雅黑&quot;;
 }
 PushButton#confirmButton{
@@ -179,15 +190,15 @@ PushButton#confirmButton{
         <property name="frameShadow">
          <enum>QFrame::Raised</enum>
         </property>
-        <layout class="QHBoxLayout" name="horizontalLayout_3" stretch="6,0,0,0">
+        <layout class="QHBoxLayout" name="horizontalLayout_3" stretch="6,0">
          <property name="spacing">
           <number>0</number>
          </property>
          <property name="leftMargin">
-          <number>0</number>
+          <number>9</number>
          </property>
          <property name="rightMargin">
-          <number>0</number>
+          <number>9</number>
          </property>
          <item>
           <spacer name="horizontalSpacer_2">
@@ -203,29 +214,9 @@ PushButton#confirmButton{
           </spacer>
          </item>
          <item>
-          <widget class="PushButton" name="deleteButton">
-           <property name="text">
-            <string>删  除</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <spacer name="horizontalSpacer_3">
-           <property name="orientation">
-            <enum>Qt::Horizontal</enum>
-           </property>
-           <property name="sizeHint" stdset="0">
-            <size>
-             <width>40</width>
-             <height>20</height>
-            </size>
-           </property>
-          </spacer>
-         </item>
-         <item>
           <widget class="PrimaryPushButton" name="confirmButton">
            <property name="text">
-            <string>生成自定义TP文件</string>
+            <string>Generate Custom TP File</string>
            </property>
           </widget>
          </item>
