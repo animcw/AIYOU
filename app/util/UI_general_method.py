@@ -97,11 +97,10 @@ def add_subtree_items(parent_item, path, file_type):
         pass
 
 
-def refresh_folder(folder, path, button, file_type):
+def refresh_folder(folder, path, file_type):
     folder.clear()
     add_tree_items(folder, path, file_type)
     folder.expandAll()
-    update_button_state(folder, button)
 
 
 def update_button_state(folder, button):

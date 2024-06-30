@@ -1,14 +1,16 @@
 import requests
 
+from app.common.config import VERSION_CHECK_CHECK, MOD_DESCRIPTION_URL
+
 proxies = {
     "http": None,
     "https": None,
 }
 
 
-def load_description(path):
+def load_description():
     try:
-        x = requests.get(path, proxies=proxies)
+        x = requests.get(MOD_DESCRIPTION_URL, proxies=proxies)
         x.raise_for_status()
         json_result = x.json()
         return json_result
@@ -18,9 +20,8 @@ def load_description(path):
 
 
 def get_version_data():
-    version_txt_url = 'https://gitee.com/wxdxyyds/aiyou/raw/master/version'
     try:
-        response = requests.get(version_txt_url, proxies=proxies)
+        response = requests.get(VERSION_CHECK_CHECK, proxies=proxies)
 
         response.raise_for_status()
         file_content = response.text
@@ -35,4 +36,4 @@ def get_version_data():
         return data
     except requests.exceptions.RequestException as e:
         print(f"An error occurred: {e}")
-        return None
+        return '0.0.0'
