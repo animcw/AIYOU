@@ -119,6 +119,8 @@ def update_json(json_file, key_path, new_value):
         with open(json_file, 'w', encoding='utf-8') as f:
             json.dump(data, f, ensure_ascii=False, indent=4)
 
+        return current[keys[-1]]
+
     except FileNotFoundError:
         show_message_box('Error', f'Config file： {json_file} was not found', win32con.MB_ICONERROR)
     except json.JSONDecodeError:

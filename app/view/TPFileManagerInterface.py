@@ -5,7 +5,7 @@ import subprocess
 from PyQt5.QtWidgets import QWidget, QFileDialog
 from qfluentwidgets import InfoBarIcon, FlyoutAnimationType
 
-from app.common.config import cfg, mkdir
+from app.common.config import cfg, mkdir, refresh_config
 from app.resource.Pages.TPFileManager import Ui_TPfileWindow
 from app.util.TP_manager import *
 from app.util.UI_general_method import *
@@ -22,7 +22,7 @@ class TPFileManagerPageInterface(QWidget, Ui_TPfileWindow):
         app_data_path = cfg.get(cfg.dataFolder)
         self.config_path = os.path.join(os.getcwd(), 'AppData', 'config.json')
         self.mod_path = os.path.join(game_path, '..', '..', '..', 'Content', 'Paks', '~mod')
-        self.mod_download_path = cfg.get(cfg.modDownloadFolder)
+        self.mod_download_path = read_config_json(self.config_path, "Folders.modDownload")
 
         # 解析的js路径
         self.unpaked_TP_file_path = os.path.join(app_data_path, 'custom_TP_file')
@@ -73,7 +73,8 @@ class TPFileManagerPageInterface(QWidget, Ui_TPfileWindow):
     def download_folder_selector(self):
         path = QFileDialog.getExistingDirectory(self, self.tr("Select Folder"), "")
         if path:
-            update_json(self.config_path, "Folders.modDownload", path)
+            self.mod_download_path = update_json(self.config_path, "Folders.modDownload", path)
+            refresh_config()
             refresh_folder(self.downloadFolder, path, '.pak')
             self.update_analysis_button_state()
 
@@ -83,7 +84,7 @@ class TPFileManagerPageInterface(QWidget, Ui_TPfileWindow):
         if len(selected_paths) == 1:
             for path in selected_paths:
                 command = [self.unpack_exe_path, path, "-extract", self.unpaked_TP_file_path]
-                result = subprocess.run(command)
+                result = subprocess.run(command, creationflags=subprocess.CREATE_NO_WINDOW)
                 if result.returncode == 0:
                     TP_file = os.path.join(self.unpaked_TP_file_path, 'ModTpFile.js')
                     # It is specially used to handle js files with wrong format.
@@ -116,7 +117,7 @@ class TPFileManagerPageInterface(QWidget, Ui_TPfileWindow):
             shutil.copy(self.saved_TP_file_path, pack_path)
             os.remove(need_to_del)
             command = [self.repak_exe_path, 'pack', repak_path]
-            result = subprocess.run(command)
+            result = subprocess.run(command, creationflags=subprocess.CREATE_NO_WINDOW)
             if result.returncode == 0:
                 show_info_bar(self, 'success', self.tr('successfully Generated'), '')
                 repaked = os.path.join(self.unpaked_TP_file_path, 'saved_custom_TP_file.pak')

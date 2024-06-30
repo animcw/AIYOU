@@ -21,6 +21,11 @@ json_data = None
 config_path = os.path.join(os.getcwd(), 'AppData', 'config.json')
 
 
+def refresh_config():
+    cfg = Config()
+    qconfig.load(os.path.join(os.getcwd(), 'AppData', 'config.json'), cfg)
+
+
 def restart_program():
     """重启当前的程序"""
     try:

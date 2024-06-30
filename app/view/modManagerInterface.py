@@ -5,7 +5,7 @@ from PyQt5.QtGui import QDesktopServices
 from PyQt5.QtWidgets import QWidget, QFileDialog
 from qfluentwidgets import MessageBox, InfoBarIcon, FlyoutAnimationType
 
-from app.common.config import cfg, mkdir
+from app.common.config import cfg, mkdir, refresh_config
 from app.resource.Pages.modManager import Ui_modWindow
 from app.util.UI_general_method import *
 from app.util.config_modify import update_json
@@ -19,8 +19,8 @@ class modManagerPageInterface(QWidget, Ui_modWindow):
         self.setupUi(self)
 
         self.mod_description = load_description()
-        self.mod_download_path = cfg.get(cfg.modDownloadFolder)
         self.config_path = os.path.join(os.getcwd(), 'AppData', 'config.json')
+        self.mod_download_path = cfg.get(cfg.modDownloadFolder)
         game_path = cfg.get(cfg.gamePath.value)
         self.mod_path = os.path.join(game_path, '..', '..', '..', 'Content', 'Paks', '~mod')
 
@@ -66,7 +66,8 @@ class modManagerPageInterface(QWidget, Ui_modWindow):
     def download_folder_selector(self):
         path = QFileDialog.getExistingDirectory(self, self.tr("Select Folder"), "")
         if path:
-            update_json(self.config_path, "Folders.modDownload", path)
+            self.mod_download_path = update_json(self.config_path, "Folders.modDownload", path)
+            refresh_config()
             refresh_folder(self.downloadFolder, path, '.pak')
 
     def open_mod_folder(self):
@@ -74,7 +75,8 @@ class modManagerPageInterface(QWidget, Ui_modWindow):
 
     def delete_mods(self):
         title = self.tr("Do you want to delete the selected mod?")
-        content = self.tr("Deleting some mods will make some functions unavailable, and even cause the game to not run normally.")
+        content = self.tr(
+            "Deleting some mods will make some functions unavailable, and even cause the game to not run normally.")
         w = MessageBox(title, content, self)
         if w.exec():
             try:
@@ -93,7 +95,8 @@ class modManagerPageInterface(QWidget, Ui_modWindow):
                         show_info_bar(self, 'success', self.tr('Added successfully!'), '')
                     except shutil.Error as e:
                         if "same file" in str(e):
-                            show_info_bar(self, 'error', self.tr('Add failed!'), self.tr('File with same name exists(；′⌒`)'))
+                            show_info_bar(self, 'error', self.tr('Add failed!'),
+                                          self.tr('File with same name exists(；′⌒`)'))
                         else:
                             show_info_bar(self, 'error', self.tr('Add failed!'), self.tr(f"Unable to copy {path}: {e}"))
                     except Exception as e:
