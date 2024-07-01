@@ -99,9 +99,9 @@ def read_user_cache_json(folder_path):
     account_cuid = []
     account_email = []
     data = {}
-
+    os_folder_path = fr"C:\Users\{username}\AppData\Roaming\KR_G153"
     if folder_path == fr"C:\Users\{username}\AppData\Roaming\KR_G152":
-        if os.path.exists(folder_path):
+        if not os.path.exists(os_folder_path):
             return [""], ["CN is not supported"], {"last_login_cuid": ""}
     else:
         if os.path.exists(folder_path):
