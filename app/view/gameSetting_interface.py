@@ -12,12 +12,9 @@ from qfluentwidgets import FluentIcon as FIF, FluentIcon, PrimaryPushSettingCard
 from qfluentwidgets import (SettingCardGroup, SwitchSettingCard, ScrollArea,
                             ComboBoxSettingCard, ExpandLayout, isDarkTheme)
 
-from app.common.config import cfg, read_user_cache_json, account_json_path, json_data
+from app.common.config import cfg, check_client_version, account_json_path
 from app.util.UI_general_method import show_flyout
 from app.util.config_modify import resource_path
-
-username = os.getlogin()
-os_client_user_cache = fr"C:\Users\{username}\AppData\Roaming\KR_G153"
 
 
 def send_game_setting():
@@ -50,9 +47,10 @@ def change_game_ini(option, value):
 
 def modify_last_login_cuid(new_cuid):
     path = account_json_path
-    json_data["last_login_cuid"] = new_cuid
-    with open(path, 'w', encoding='utf-8') as f:
-        json.dump(json_data, f, ensure_ascii=False, indent=4)
+    check_client_version()[2]['last_login_cuid'] = new_cuid
+    if new_cuid != "":
+        with open(path, 'w', encoding='utf-8') as f:
+            json.dump(check_client_version()[2], f, ensure_ascii=False, indent=4)
 
 
 def run_game():
@@ -95,7 +93,7 @@ class gameSettingInterface(ScrollArea):
             FIF.PEOPLE,
             self.tr('Account Switch'),
             self.tr('Choose your preferred account(CN is not supported)'),
-            texts=read_user_cache_json(os_client_user_cache)[1],
+            texts=check_client_version()[1],
             parent=self.clientSettingGroup
         )
 

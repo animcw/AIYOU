@@ -11,7 +11,7 @@ from PyQt5.QtGui import QDesktopServices
 from PyQt5.QtWidgets import QFileDialog
 from qfluentwidgets import MessageBox
 
-from app.common.config import VERSION, RELEASE_URL, json_data
+from app.common.config import VERSION, RELEASE_URL, check_client_version
 from app.util.UI_general_method import show_info_bar
 from app.util.requests_general import get_version_data
 
@@ -57,7 +57,8 @@ def initialize_config(self):
     resolutionsizex = config.getint('/Script/Engine.GameUserSettings', 'resolutionsizex', fallback=None)
     resolutionsizey = config.getint('/Script/Engine.GameUserSettings', 'resolutionsizey', fallback=None)
     fullscreenmode = config.getint('/Script/Engine.GameUserSettings', 'fullscreenmode', fallback=None)
-    account = json_data['last_login_cuid']
+
+    account = check_client_version()[2]['last_login_cuid']
 
     if resolutionsizex is not None and resolutionsizey is not None:
         update_json(config_path,
