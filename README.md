@@ -1,5 +1,7 @@
 # AIYOU
 
+[English](https://github.com/RoosterBrother/AIYOU/blob/main/README-en.md)
+
 > 哎呦，你干嘛~~
 
 ## 只有IKun才知道的启动器
