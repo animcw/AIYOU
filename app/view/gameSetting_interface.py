@@ -12,7 +12,7 @@ from qfluentwidgets import FluentIcon as FIF, FluentIcon, PrimaryPushSettingCard
 from qfluentwidgets import (SettingCardGroup, SwitchSettingCard, ScrollArea,
                             ComboBoxSettingCard, ExpandLayout, isDarkTheme)
 
-from app.common.config import cfg, check_client_version, account_json_path
+from app.common.config import cfg, check_client_version
 from app.util.UI_general_method import show_flyout
 from app.util.config_modify import resource_path
 
@@ -46,11 +46,20 @@ def change_game_ini(option, value):
 
 
 def modify_last_login_cuid(new_cuid):
-    path = account_json_path
-    check_client_version()[2]['last_login_cuid'] = new_cuid
-    if new_cuid != "":
-        with open(path, 'w', encoding='utf-8') as f:
-            json.dump(check_client_version()[2], f, ensure_ascii=False, indent=4)
+    username = os.getlogin()
+    os_account_path = fr"C:\Users\{username}\AppData\Roaming\KR_G153"
+    if os.path.exists(os_account_path):
+        for root, dirs, files in os.walk(os_account_path):
+            if 'KRSDKUserCache.json' in files:
+                path = os.path.join(root, 'KRSDKUserCache.json')
+                with open(path, 'r', encoding='utf-8') as f:
+                    data = json.load(f)
+
+                if 'last_login_cuid' in data:
+                    data['last_login_cuid'] = new_cuid
+
+                with open(path, 'w', encoding='utf-8') as f:
+                    json.dump(data, f, ensure_ascii=False, indent=4)
 
 
 def run_game():
@@ -101,7 +110,7 @@ class gameSettingInterface(ScrollArea):
         self.startupSettingGroup = SettingCardGroup(self.tr('Startup Settings'), self.scrollWidget)
         self.loadModCard = SwitchSettingCard(
             FIF.APPLICATION,
-            self.tr('Choose whether to load the mod when the game starts'),
+            self.tr('Load mods when the game starts'),
             self.tr('Using -fileopenlog Commands to load mods'),
             configItem=cfg.isLoadMod,
             parent=self.startupSettingGroup

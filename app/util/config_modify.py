@@ -139,14 +139,14 @@ def checkUpdate(self):
     online_version = version_json.get('version', '0.0.0')
     version_status = compare_versions(online_version, VERSION)
     if not version_status:
-        show_info_bar(self, 'warning', '发现新版本', '请尽快前往更新')
+        show_info_bar(self, 'warning', self.tr('Found new version'), self.tr('Please update ASAP.'))
         show_update_box(self)
     else:
-        show_info_bar(self, 'success', '当前已是最新版本', '')
+        show_info_bar(self, 'success', self.tr("It is already the latest version"), "")
 
 
 def show_update_box(self):
-    w = MessageBox("发现新版本", "点击前往更新~~", self)
+    w = MessageBox(self.tr("Found new version"), self.tr("Click to update ~~"), self)
     if w.exec():
         QDesktopServices.openUrl(QUrl(RELEASE_URL))
 

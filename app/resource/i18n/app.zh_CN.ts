@@ -4,22 +4,22 @@
 <context>
     <name>MainWindow</name>
     <message>
-        <location filename="../../view/main_window.py" line="42"/>
+        <location filename="../../view/main_window.py" line="45"/>
         <source>Game</source>
         <translation>游戏设置</translation>
     </message>
     <message>
-        <location filename="../../view/main_window.py" line="43"/>
+        <location filename="../../view/main_window.py" line="46"/>
         <source>Mod</source>
         <translation>Mod管理</translation>
     </message>
     <message>
-        <location filename="../../view/main_window.py" line="44"/>
+        <location filename="../../view/main_window.py" line="47"/>
         <source>TP Files</source>
         <translation>TP文件管理</translation>
     </message>
     <message>
-        <location filename="../../view/main_window.py" line="45"/>
+        <location filename="../../view/main_window.py" line="48"/>
         <source>Setting</source>
         <translation>设置</translation>
     </message>
@@ -166,22 +166,22 @@
         <translation>选择文件夹</translation>
     </message>
     <message>
-        <location filename="../../view/TPFileManagerInterface.py" line="96"/>
+        <location filename="../../view/TPFileManagerInterface.py" line="97"/>
         <source>Unpack TP file failed</source>
         <translation>解压TP文件失败</translation>
     </message>
     <message>
-        <location filename="../../view/TPFileManagerInterface.py" line="126"/>
+        <location filename="../../view/TPFileManagerInterface.py" line="127"/>
         <source>Something is wrong</source>
         <translation>出错了</translation>
     </message>
     <message>
-        <location filename="../../view/TPFileManagerInterface.py" line="98"/>
+        <location filename="../../view/TPFileManagerInterface.py" line="99"/>
         <source>Only one TP file can be selected!</source>
         <translation>只能选择一个TP文件！</translation>
     </message>
     <message>
-        <location filename="../../view/TPFileManagerInterface.py" line="121"/>
+        <location filename="../../view/TPFileManagerInterface.py" line="122"/>
         <source>successfully Generated</source>
         <translation>生成成功</translation>
     </message>
@@ -217,104 +217,104 @@
 <context>
     <name>gameSettingInterface</name>
     <message>
-        <location filename="../../view/gameSetting_interface.py" line="74"/>
+        <location filename="../../view/gameSetting_interface.py" line="82"/>
         <source>Start Game</source>
         <translation>启动游戏</translation>
     </message>
     <message>
-        <location filename="../../view/gameSetting_interface.py" line="82"/>
+        <location filename="../../view/gameSetting_interface.py" line="90"/>
         <source>Client Settings</source>
         <translation>客户端设置</translation>
     </message>
     <message>
-        <location filename="../../view/gameSetting_interface.py" line="84"/>
+        <location filename="../../view/gameSetting_interface.py" line="92"/>
         <source>Client Version Switch</source>
         <translation>客户端版本转换</translation>
     </message>
     <message>
-        <location filename="../../view/gameSetting_interface.py" line="84"/>
+        <location filename="../../view/gameSetting_interface.py" line="92"/>
         <source>Set your preferred client version</source>
         <translation>设置您的首选客户端版本</translation>
     </message>
     <message>
-        <location filename="../../view/gameSetting_interface.py" line="84"/>
+        <location filename="../../view/gameSetting_interface.py" line="92"/>
         <source>CN</source>
         <translation>国服</translation>
     </message>
     <message>
-        <location filename="../../view/gameSetting_interface.py" line="84"/>
+        <location filename="../../view/gameSetting_interface.py" line="92"/>
         <source>OS</source>
         <translation>国际服</translation>
     </message>
     <message>
-        <location filename="../../view/gameSetting_interface.py" line="92"/>
+        <location filename="../../view/gameSetting_interface.py" line="100"/>
         <source>Account Switch</source>
         <translation>账号切换</translation>
     </message>
     <message>
-        <location filename="../../view/gameSetting_interface.py" line="92"/>
+        <location filename="../../view/gameSetting_interface.py" line="100"/>
         <source>Choose your preferred account(CN is not supported)</source>
         <translation>选择您的首选帐户(不支持国服)</translation>
     </message>
     <message>
-        <location filename="../../view/gameSetting_interface.py" line="102"/>
+        <location filename="../../view/gameSetting_interface.py" line="110"/>
         <source>Startup Settings</source>
         <translation>启动设置</translation>
     </message>
     <message>
-        <location filename="../../view/gameSetting_interface.py" line="103"/>
-        <source>Choose whether to load the mod when the game starts</source>
-        <translation>选择是否在游戏开始时加载mod</translation>
-    </message>
-    <message>
-        <location filename="../../view/gameSetting_interface.py" line="103"/>
+        <location filename="../../view/gameSetting_interface.py" line="111"/>
         <source>Using -fileopenlog Commands to load mods</source>
         <translation>使用-fileopenlog命令加载mod</translation>
     </message>
     <message>
-        <location filename="../../view/gameSetting_interface.py" line="110"/>
+        <location filename="../../view/gameSetting_interface.py" line="118"/>
         <source>Display Mode</source>
         <translation>显示模式</translation>
     </message>
     <message>
-        <location filename="../../view/gameSetting_interface.py" line="110"/>
+        <location filename="../../view/gameSetting_interface.py" line="118"/>
         <source>Set your preferred display mode</source>
         <translation>设置您的首选显示模式</translation>
     </message>
     <message>
-        <location filename="../../view/gameSetting_interface.py" line="110"/>
+        <location filename="../../view/gameSetting_interface.py" line="118"/>
         <source>Full Screen</source>
         <translation>全屏</translation>
     </message>
     <message>
-        <location filename="../../view/gameSetting_interface.py" line="110"/>
+        <location filename="../../view/gameSetting_interface.py" line="118"/>
         <source>Windows</source>
         <translation>窗口化</translation>
     </message>
     <message>
-        <location filename="../../view/gameSetting_interface.py" line="118"/>
+        <location filename="../../view/gameSetting_interface.py" line="126"/>
         <source>Windowed Resolution</source>
         <translation>窗口化分辨率</translation>
     </message>
     <message>
-        <location filename="../../view/gameSetting_interface.py" line="118"/>
+        <location filename="../../view/gameSetting_interface.py" line="126"/>
         <source>Set your preferred Resolution</source>
         <translation>设置首选分辨率</translation>
     </message>
     <message>
-        <location filename="../../view/gameSetting_interface.py" line="74"/>
+        <location filename="../../view/gameSetting_interface.py" line="82"/>
         <source>Let&apos;s have some fun!</source>
         <translation>启动，启动，全部启动！</translation>
     </message>
     <message>
-        <location filename="../../view/gameSetting_interface.py" line="129"/>
+        <location filename="../../view/gameSetting_interface.py" line="137"/>
         <source>Start Successful!</source>
         <translation>启动成功！</translation>
     </message>
     <message>
-        <location filename="../../view/gameSetting_interface.py" line="129"/>
+        <location filename="../../view/gameSetting_interface.py" line="137"/>
         <source>It&apos;s playtime</source>
         <translation>MC，启动</translation>
+    </message>
+    <message>
+        <location filename="../../view/gameSetting_interface.py" line="111"/>
+        <source>Load mods when the game starts</source>
+        <translation>启动游戏时加载Mod</translation>
     </message>
 </context>
 <context>
@@ -330,47 +330,47 @@
         <translation>选择文件夹</translation>
     </message>
     <message>
-        <location filename="../../view/modManagerInterface.py" line="76"/>
+        <location filename="../../view/modManagerInterface.py" line="77"/>
         <source>Do you want to delete the selected mod?</source>
         <translation>是否要删除选定的mod？</translation>
     </message>
     <message>
-        <location filename="../../view/modManagerInterface.py" line="77"/>
+        <location filename="../../view/modManagerInterface.py" line="78"/>
         <source>Deleting some mods will make some functions unavailable, and even cause the game to not run normally.</source>
         <translation>删除某些mod会导致某些功能不可用，甚至导致游戏无法正常运行。</translation>
     </message>
     <message>
-        <location filename="../../view/modManagerInterface.py" line="93"/>
+        <location filename="../../view/modManagerInterface.py" line="95"/>
         <source>Added successfully!</source>
         <translation>添加成功！</translation>
     </message>
     <message>
-        <location filename="../../view/modManagerInterface.py" line="100"/>
+        <location filename="../../view/modManagerInterface.py" line="103"/>
         <source>Add failed!</source>
         <translation>添加失败！</translation>
     </message>
     <message>
-        <location filename="../../view/modManagerInterface.py" line="96"/>
+        <location filename="../../view/modManagerInterface.py" line="98"/>
         <source>File with same name exists(；′⌒`)</source>
         <translation>存在同名文件(；′⌒`)</translation>
     </message>
     <message>
-        <location filename="../../view/modManagerInterface.py" line="100"/>
+        <location filename="../../view/modManagerInterface.py" line="103"/>
         <source>Unable to copy {path}: {e}</source>
         <translation>无法复制{path}: {e}</translation>
     </message>
     <message>
-        <location filename="../../view/modManagerInterface.py" line="111"/>
+        <location filename="../../view/modManagerInterface.py" line="114"/>
         <source>Deleted successfully!</source>
         <translation>删除成功！</translation>
     </message>
     <message>
-        <location filename="../../view/modManagerInterface.py" line="113"/>
+        <location filename="../../view/modManagerInterface.py" line="116"/>
         <source>Delete failed!</source>
         <translation>删除失败！</translation>
     </message>
     <message>
-        <location filename="../../view/modManagerInterface.py" line="113"/>
+        <location filename="../../view/modManagerInterface.py" line="116"/>
         <source>Unable to delete {path}: {e}</source>
         <translation>无法删除{path}: {e}</translation>
     </message>

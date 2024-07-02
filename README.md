@@ -80,3 +80,9 @@ pyinstaller --upx-dir "path/to/your/upx" main.spec
 # Contribute
 
 Feel free to PR here!!!
+
+# 反馈BUG
+
+在issue里面提交或直接私我
+
+
