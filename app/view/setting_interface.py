@@ -8,7 +8,7 @@ from qfluentwidgets import (SettingCardGroup, OptionsSettingCard, PushSettingCar
                             ComboBoxSettingCard, ExpandLayout, Theme, InfoBar, CustomColorSettingCard,
                             setTheme, isDarkTheme)
 
-from app.common.config import cfg, FEEDBACK_URL, AUTHOR, VERSION, YEAR, restart_program
+from app.common.config import cfg, FEEDBACK_URL, AUTHOR, VERSION, YEAR
 from app.util.config_modify import checkUpdate, resource_path
 
 
@@ -123,7 +123,6 @@ class SettingInterface(ScrollArea):
         self.personalGroup.addSettingCard(self.zoomCard)
         self.personalGroup.addSettingCard(self.languageCard)
 
-
         self.aboutGroup.addSettingCard(self.feedbackCard)
         self.aboutGroup.addSettingCard(self.aboutCard)
 
@@ -164,8 +163,10 @@ class SettingInterface(ScrollArea):
         cfg.themeChanged.connect(self.__onThemeChanged)
 
         # folder
-        self.dataFolderCard.clicked.connect(lambda: QDesktopServices.openUrl(QUrl.fromLocalFile(cfg.get(cfg.dataFolder))))
-        self.cacheFolderCard.clicked.connect(lambda: QDesktopServices.openUrl(QUrl.fromLocalFile(cfg.get(cfg.cacheFolder))))
+        self.dataFolderCard.clicked.connect(
+            lambda: QDesktopServices.openUrl(QUrl.fromLocalFile(cfg.get(cfg.dataFolder))))
+        self.cacheFolderCard.clicked.connect(
+            lambda: QDesktopServices.openUrl(QUrl.fromLocalFile(cfg.get(cfg.cacheFolder))))
 
         # about
         self.aboutCard.clicked.connect(self.doCheck)

@@ -5,15 +5,21 @@ import sys
 import time
 from enum import Enum
 
+import win32api
+import win32con
 from PyQt5.QtCore import QLocale
 from pyjsparser.parser import false
 from qfluentwidgets import (qconfig, QConfig, ConfigItem, OptionsConfigItem, BoolValidator,
-                            OptionsValidator, ConfigSerializer, EnumSerializer)
+                            OptionsValidator, ConfigSerializer, EnumSerializer, RangeConfigItem, RangeValidator)
 
 username = os.getlogin()
 version = [152, 153]
 
 config_path = os.path.join(os.getcwd(), 'AppData', 'config.json')
+
+w = win32api.GetSystemMetrics(win32con.SM_CXSCREEN)  #获得屏幕分辨率X轴
+
+h = win32api.GetSystemMetrics(win32con.SM_CYSCREEN)
 
 
 def refresh_config():
@@ -54,12 +60,16 @@ def fku_pyinstaller():
             "modDownload": "C:\\Users"
         },
         "GameSetting": {
-            "ClientVersion": 1,
+            "ClientVersion": '',
+            "customHeight": '',
+            "customWidth": '',
             "GamePath": "",
-            "FullScreenMode": "",
+            "isCustomResolution": false,
+            "FullScreenMode": 1,
             "isLoadMod": false,
-            "lastLogin": "",
-            "Resolution": ""
+            "isUnlock120": false,
+            "lastLogin": '',
+            "Resolution": ''
         },
         "MainWindow": {
             "DpiScale": "Auto",
@@ -214,6 +224,10 @@ class Config(QConfig):
     isFull = OptionsConfigItem("GameSetting", "FullScreenMode", 1, OptionsValidator([1, 2]))
     resolution = OptionsConfigItem("GameSetting", "Resolution", Resolution.Normal, OptionsValidator(Resolution),
                                    EnumSerializer(Resolution))
+    isUnlock120 = ConfigItem("GameSetting", "isUnlock120", False, BoolValidator())
+    isCustomResolution = ConfigItem("GameSetting", "isCustomResolution", False, BoolValidator())
+    customWidth = RangeConfigItem("GameSetting", "customWidth", 200, RangeValidator(200, w))
+    customHeight = RangeConfigItem("GameSetting", "customHeight", 200, RangeValidator(200, h))
 
     # folders
     dataFolder = ConfigItem(

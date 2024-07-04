@@ -8,13 +8,14 @@ import threading
 from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import QWidget
 from qfluentwidgets import FluentIcon as FIF, FluentIcon, PrimaryPushSettingCard, InfoBarIcon, \
-    FlyoutAnimationType
+    FlyoutAnimationType, RangeSettingCard
 from qfluentwidgets import (SettingCardGroup, SwitchSettingCard, ScrollArea,
                             ComboBoxSettingCard, ExpandLayout, isDarkTheme)
 
 from app.common.config import cfg, check_client_version
 from app.util.UI_general_method import show_flyout
 from app.util.config_modify import resource_path
+from app.util.localstorage import update_all_localstorage
 
 
 def send_game_setting():
@@ -115,6 +116,13 @@ class gameSettingInterface(ScrollArea):
             configItem=cfg.isLoadMod,
             parent=self.startupSettingGroup
         )
+        self.unlock120Card = SwitchSettingCard(
+            FIF.MARKET,
+            self.tr('Unlock 120 FPS'),
+            self.tr('Set the frame rate to 120'),
+            configItem=cfg.isUnlock120,
+            parent=self.startupSettingGroup
+        )
         self.screenModeCard = ComboBoxSettingCard(
             cfg.isFull,
             FIF.FIT_PAGE,
@@ -131,6 +139,25 @@ class gameSettingInterface(ScrollArea):
             texts=["1920x1080", "1600x900", "1440x900", "1366x768", "1280x720"],
             parent=self.startupSettingGroup
         )
+        self.isCustomResolutionCard = SwitchSettingCard(
+            FIF.ZOOM,
+            self.tr('Enable custom resolution'),
+            self.tr('Choose whether to use a custom resolution'),
+            configItem=cfg.isCustomResolution,
+            parent=self.startupSettingGroup
+        )
+        self.customWidthCard = RangeSettingCard(
+            cfg.customWidth,
+            FIF.MINIMIZE,
+            title=self.tr("Custom Width"),
+            content=self.tr("Minimum is 200 and maximum is the current screen width")
+        )
+        self.customHeightCard = RangeSettingCard(
+            cfg.customHeight,
+            FIF.MINIMIZE,
+            title=self.tr("Custom Height"),
+            content=self.tr("Minimum is 200 and maximum is the current screen height")
+        )
         self.__initWidget()
 
     def launch_game(self):
@@ -146,16 +173,32 @@ class gameSettingInterface(ScrollArea):
         account = str(cfg.get(cfg.lastLogin))
         modify_last_login_cuid(account)
 
+    def apply_120hz(self):
+        if cfg.get(cfg.isUnlock120):
+            update_all_localstorage(120, 'KeyCustomFrameRate')
+        else:
+            update_all_localstorage(60, 'KeyCustomFrameRate')
+
     def apply_screenMode(self):
         screenMode = str(cfg.get(cfg.isFull))
+        self.__initEnableCustomResolutionVisual()
         self.__initResolutionVisual()
-        change_game_ini('fullscreenmode', screenMode)
+        self.__initPresetResolutionVisual()
+        self.__initCustomResolutionVisual()
+        update_all_localstorage(int(screenMode), 'KeyPcWindowMode')
+        # change_game_ini('fullscreenmode', screenMode)
 
     def apply_resolution(self):
-        width = cfg.get(cfg.resolution.value).split("x")[0]
-        height = cfg.get(cfg.resolution.value).split("x")[1]
-        change_game_ini('resolutionsizex', width)
-        change_game_ini('resolutionsizey', height)
+        if not cfg.get(cfg.isCustomResolution):
+            width = cfg.get(cfg.resolution.value).split("x")[0]
+            height = cfg.get(cfg.resolution.value).split("x")[1]
+        else:
+            width = cfg.get(cfg.customWidth)
+            height = cfg.get(cfg.customHeight)
+        update_all_localstorage(int(width), 'KeyPcResolutionWidth')
+        update_all_localstorage(int(height), 'KeyPcResolutionHeight')
+        # change_game_ini('resolutionsizex', width)
+        # change_game_ini('resolutionsizey', height)
 
     def __initResolutionVisual(self):
         screenMode = cfg.get(cfg.isFull)
@@ -171,6 +214,26 @@ class gameSettingInterface(ScrollArea):
         else:
             self.accountSwitchCard.setEnabled(True)
 
+    def __initEnableCustomResolutionVisual(self):
+        if cfg.get(cfg.isFull) == 1:
+            self.isCustomResolutionCard.setEnabled(False)
+        else:
+            self.isCustomResolutionCard.setEnabled(True)
+
+    def __initPresetResolutionVisual(self):
+        if not cfg.get(cfg.isCustomResolution):
+            self.resolutionCard.setEnabled(True)
+        else:
+            self.resolutionCard.setEnabled(False)
+
+    def __initCustomResolutionVisual(self):
+        if cfg.get(cfg.isCustomResolution) and not cfg.get(cfg.isFull) == 1:
+            self.customWidthCard.setEnabled(True)
+            self.customHeightCard.setEnabled(True)
+        else:
+            self.customWidthCard.setEnabled(False)
+            self.customHeightCard.setEnabled(False)
+
     def __initWidget(self):
         self.resize(800, 600)
         self.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOff)
@@ -184,8 +247,10 @@ class gameSettingInterface(ScrollArea):
         # initialize layout
         self.__initLayout()
         self.__connectSignalToSlot()
-        self.__initResolutionVisual()
         self.__initAccountVisual()
+        self.__initResolutionVisual()
+        self.__initEnableCustomResolutionVisual()
+        self.__initCustomResolutionVisual()
 
     def __initLayout(self):
         # add cards to group
@@ -195,8 +260,12 @@ class gameSettingInterface(ScrollArea):
         self.clientSettingGroup.addSettingCard(self.accountSwitchCard)
 
         self.startupSettingGroup.addSettingCard(self.loadModCard)
+        self.startupSettingGroup.addSettingCard(self.unlock120Card)
         self.startupSettingGroup.addSettingCard(self.screenModeCard)
+        self.startupSettingGroup.addSettingCard(self.isCustomResolutionCard)
         self.startupSettingGroup.addSettingCard(self.resolutionCard)
+        self.startupSettingGroup.addSettingCard(self.customWidthCard)
+        self.startupSettingGroup.addSettingCard(self.customHeightCard)
 
         # add setting card group to layout
         self.expandLayout.setSpacing(28)
@@ -216,6 +285,12 @@ class gameSettingInterface(ScrollArea):
     def __connectSignalToSlot(self):
         self.startUPCard.clicked.connect(self.launch_game)
         cfg.clientVersion.valueChanged.connect(self.apply_clientSwitch)
+        cfg.isUnlock120.valueChanged.connect(self.apply_120hz)
         cfg.lastLogin.valueChanged.connect(self.apply_account)
         cfg.isFull.valueChanged.connect(self.apply_screenMode)
         cfg.resolution.valueChanged.connect(self.apply_resolution)
+        cfg.isCustomResolution.valueChanged.connect(self.__initCustomResolutionVisual)
+        cfg.isCustomResolution.valueChanged.connect(self.__initPresetResolutionVisual)
+        cfg.customWidth.valueChanged.connect(self.apply_resolution)
+        cfg.customHeight.valueChanged.connect(self.apply_resolution)
+
