@@ -246,7 +246,7 @@ class Config(QConfig):
 
 YEAR = 2024
 AUTHOR = "RoosterBrother"
-VERSION = "0.1.3.2"
+VERSION = "0.1.4"
 VERSION_CHECK_CHECK = "https://gitee.com/wxdxyyds/aiyou/raw/master/version"
 MOD_DESCRIPTION_URL = "https://gitee.com/wxdxyyds/aiyou_-translate/raw/master/modDescription.json"
 FEEDBACK_URL = "https://github.com/RoosterBrother/AIYOU"
