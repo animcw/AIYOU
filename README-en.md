@@ -2,35 +2,43 @@
 
 # Features
 
-- [x] Game Startup parameter setting
+- [x] Account switching
 
-- Account Switch
+- [x] Start parameter settings
 
-- Display Mode
+- Unlock 120 frames
 
-- Window Size
+- Window mode
 
-- Additional Parameters
+- Window size
 
-- [x] Mod Mangaer
+- Custom Resolution
 
-- Add Mods
+- [x] Manage Mod
 
-- Delete Mods
+- Add Mod
 
-- [x] Mod Details Display
+- Delete Mod
+
+- Mod details display
 
 - [x] TP file customization
 
-- [x] Multi-Language Support
+- [x] Gacha history statistics
 
-- [x] Application Theme Settings
+- [x] Application settings
 
-# In-Build
+- Language settings
 
-- [ ] Client Switch（CN < -- > OS）
+- Application Theme Settings
 
-- [ ] Macro
+- Theme color settings
+
+- Interface scaling settings
+
+- Check for updates
+
+ 
 
 # Install
 
@@ -57,15 +65,15 @@ For Mods that do not display details, if you are aware of the Mod function, plea
 
 # Preview
 
-![](https://cdn.jsdelivr.net/gh/Cey1anze/Blog_Images@main/pic/202406302149774.png)
+![](https://cdn.jsdelivr.net/gh/Cey1anze/Blog_Images@main/pic/202407071811639.png)
 
-![](https://cdn.jsdelivr.net/gh/Cey1anze/Blog_Images@main/pic/202406302154207.png)
+![](https://cdn.jsdelivr.net/gh/Cey1anze/Blog_Images@main/pic/202407071812305.png)
 
-![](https://cdn.jsdelivr.net/gh/Cey1anze/Blog_Images@main/pic/202406302155277.png)
+![](https://cdn.jsdelivr.net/gh/Cey1anze/Blog_Images@main/pic/202407071813358.png)
 
-![](https://cdn.jsdelivr.net/gh/Cey1anze/Blog_Images@main/pic/202406302155170.png)
+![](https://cdn.jsdelivr.net/gh/Cey1anze/Blog_Images@main/pic/202407071813140.png)
 
-![](https://cdn.jsdelivr.net/gh/Cey1anze/Blog_Images@main/pic/202406302156653.png)
+![](https://cdn.jsdelivr.net/gh/Cey1anze/Blog_Images@main/pic/202407071814335.png)
 
 # Contribute
 
@@ -73,4 +81,4 @@ Feel free to PR here!!!
 
 # report bugs
 
-DM me in Discord
+DM me in Discord!

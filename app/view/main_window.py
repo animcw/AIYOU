@@ -13,6 +13,7 @@ from app.view.gameSetting_interface import gameSettingInterface
 from app.view.modManagerInterface import modManagerPageInterface
 from app.view.setting_interface import SettingInterface
 from app.view.TPFileManagerInterface import TPFileManagerPageInterface
+from app.view.gachaHistoryInterface import gachaHistoryPageInterface
 
 
 class MainWindow(MSFluentWindow):
@@ -31,6 +32,7 @@ class MainWindow(MSFluentWindow):
         self.modManagerInterface = modManagerPageInterface(self)
         self.TPFileManagerInterface = TPFileManagerPageInterface(self)
         self.settingInterface = SettingInterface(self)
+        self.gachaHistoryInterface = gachaHistoryPageInterface(self)
 
         self.connectSignalToSlot()
 
@@ -45,6 +47,7 @@ class MainWindow(MSFluentWindow):
         self.addSubInterface(self.gameSettingInterface, FIF.GAME, self.tr('Game'))
         self.addSubInterface(self.modManagerInterface, FIF.DICTIONARY, self.tr('Mod'))
         self.addSubInterface(self.TPFileManagerInterface, FIF.TRAIN, self.tr('TP Files'))
+        self.addSubInterface(self.gachaHistoryInterface, FIF.PIE_SINGLE, self.tr('gachaHistory'))
         self.addSubInterface(self.settingInterface, FIF.SETTING, self.tr('Setting'),
                              position=NavigationItemPosition.BOTTOM)
 

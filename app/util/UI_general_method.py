@@ -1,9 +1,15 @@
+import json
 import os
+import shutil
+import sys
 
+from PIL import Image, ImageDraw, ImageFont
 from PyQt5.QtCore import Qt, QSize
 from PyQt5.QtGui import QIcon
 from PyQt5.QtWidgets import QTreeWidgetItem
 from qfluentwidgets import InfoBar, InfoBarPosition, Flyout, SubtitleLabel, LineEdit, MessageBoxBase
+
+from app.common.config import cfg
 
 
 class CustomMessageBox(MessageBoxBase):
@@ -50,6 +56,16 @@ def show_info_bar(window, info_type, title, info):
             isClosable=True,
             position=InfoBarPosition.BOTTOM,
             duration=-1,  # 永不消失
+            parent=window
+        )
+    elif info_type == 'info':
+        InfoBar.info(
+            title=title,
+            content=info,
+            orient=Qt.Horizontal,
+            isClosable=True,
+            position=InfoBarPosition.BOTTOM_LEFT,
+            duration=5000,
             parent=window
         )
     else:
@@ -136,3 +152,90 @@ def get_selected_item(item, selected_paths):
             if path and not os.path.isdir(path):
                 selected_paths.append(path)
         get_selected_item(child, selected_paths)
+
+
+def resource_path(relative_path):
+    """ Get the absolute path to the resource, works for both dev and PyInstaller """
+    if hasattr(sys, '_MEIPASS'):
+        return os.path.join(sys._MEIPASS, relative_path)
+    return os.path.join(os.path.abspath("."), relative_path)
+
+
+def generate_images(records, cardPoolType):
+    font_path = resource_path('app/resource/font/H7GBK-Heavy.ttf')
+    list_path = resource_path('app/resource/FiveStarList.json')
+
+    with open(list_path, 'r', encoding='utf-8') as file:
+        list = json.load(file)
+
+    for cardType in cardPoolType:
+        base_image_path = os.path.join(os.getcwd(), 'AppData', 'gachaImage')
+        output_directory = os.path.join(base_image_path, cardPoolType[cardType])
+        if os.path.exists(output_directory):
+            shutil.rmtree(output_directory)
+        os.makedirs(output_directory, exist_ok=True)
+
+        search_paths = [resource_path("app/resource/images/Characters"),
+                        resource_path("app/resource/images/Weapons")]
+
+        for interval, name, qualityLevel in records[cardType]["four_star_intervals"] + records[cardType][
+            "five_star_intervals"]:
+            image_found = False
+            for search_path in search_paths:
+                image_path = os.path.join(search_path, f"{name}.png")
+                # print(f"Checking image path: {image_path}")
+                if os.path.exists(image_path):
+                    image = Image.open(image_path)
+
+                    image = image.resize((240, 320), Image.LANCZOS)
+
+                    new_size = (image.width // 2, image.height // 2)
+                    resized_image = image.resize(new_size, Image.LANCZOS)
+
+                    # 设置背景颜色
+                    if (interval, name, qualityLevel) in records[cardType]["four_star_intervals"]:
+                        background_color = (126, 87, 194, 255)  # 紫色
+                    elif (interval, name, qualityLevel) in records[cardType]["five_star_intervals"]:
+                        background_color = (255, 204, 77, 255)  # 金色
+
+                    # 背景颜色部分的高度设置为图像高度的20%
+                    background_color_height = int(new_size[1] * 0.2)
+                    background_size = (new_size[0], new_size[1] + background_color_height)
+                    background = Image.new('RGBA', background_size, (0, 0, 0, 0))
+                    background.paste(resized_image, (0, 0))
+
+                    draw = ImageDraw.Draw(background)
+                    font_size = 30
+                    font = ImageFont.truetype(font_path, font_size)
+                    text = f"{interval}"
+
+                    text_bbox = draw.textbbox((0, 0), text, font=font)
+                    text_width = text_bbox[2] - text_bbox[0]
+                    text_height = text_bbox[3] - text_bbox[1]
+                    text_position = ((background_size[0] - text_width) // 2, new_size[1])
+
+                    # 绘制背景颜色部分
+                    draw.rectangle([(0, new_size[1]), (background_size[0], background_size[1])], fill=background_color)
+
+                    if cardType == 1 and name in list['characters'] and name not in list['UP']:
+                        losePity_font = ImageFont.truetype(font_path, 20)
+                        losePity_text = "Lost 50/50"
+                        losePity_bbox = draw.textbbox((0, 0), losePity_text, font=losePity_font)
+                        losePity_text_width = losePity_bbox[2] - losePity_bbox[0]
+                        losePity_text_height = losePity_bbox[3] - losePity_bbox[1]
+                        losePity_position = (
+                            background_size[0] - losePity_text_width - 10,  # 右边距10像素
+                            10  # 上边距10像素
+                        )
+                        draw.rectangle([(0, new_size[1]), (background_size[0], background_size[1])],
+                                       fill='#ba5b49')
+                        draw.text(losePity_position, losePity_text, font=losePity_font, fill='#ba5b49')
+
+                    draw.text(text_position, text, font=font, fill='#FFFFFF')
+
+                    output_image_path = os.path.join(output_directory, f"{name}_{interval}.png")
+                    background.save(output_image_path)
+                    image_found = True
+                    break  # 找到图片后停止搜索
+            #if not image_found:
+                #print(f"Image not found for {name}")

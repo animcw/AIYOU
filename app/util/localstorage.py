@@ -40,12 +40,3 @@ def update_game_quality_setting(file_path, option, key):
         conn.commit()
 
     conn.close()
-
-
-if __name__ == "__main__":
-    db_file_path = "I:\\Games\\Wuthering Waves\\Wuthering Waves Game\\Client\\Saved\\LocalStorage\\LocalStorage.db"
-    new_frame_rate = 120
-    new_resolution_width = 1080
-    new_resolution_height = 463
-
-    update_game_quality_setting(db_file_path, new_frame_rate, 'KeyCustomFrameRate')

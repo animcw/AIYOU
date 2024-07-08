@@ -2,26 +2,54 @@
 <!DOCTYPE TS>
 <TS version="2.1" language="zh_HK" sourcelanguage="en_US">
 <context>
+    <name></name>
+    <message>
+        <location filename="../../util/config_modify.py" line="149"/>
+        <source>Found new version</source>
+        <translation>找到了新版本</translation>
+    </message>
+    <message>
+        <location filename="../../util/config_modify.py" line="142"/>
+        <source>Please update ASAP.</source>
+        <translation>請儘快更新。</translation>
+    </message>
+    <message>
+        <location filename="../../util/config_modify.py" line="145"/>
+        <source>It is already the latest version</source>
+        <translation>已經是最新版本了</translation>
+    </message>
+    <message>
+        <location filename="../../util/config_modify.py" line="149"/>
+        <source>Click to update ~~</source>
+        <translation>點擊確認以更新~~</translation>
+    </message>
+</context>
+<context>
     <name>MainWindow</name>
     <message>
-        <location filename="../../view/main_window.py" line="45"/>
+        <location filename="../../view/main_window.py" line="47"/>
         <source>Game</source>
         <translation>遊戲</translation>
     </message>
     <message>
-        <location filename="../../view/main_window.py" line="46"/>
+        <location filename="../../view/main_window.py" line="48"/>
         <source>Mod</source>
         <translation>模組管理</translation>
     </message>
     <message>
-        <location filename="../../view/main_window.py" line="47"/>
+        <location filename="../../view/main_window.py" line="49"/>
         <source>TP Files</source>
         <translation>TP文件管理</translation>
     </message>
     <message>
-        <location filename="../../view/main_window.py" line="48"/>
+        <location filename="../../view/main_window.py" line="51"/>
         <source>Setting</source>
         <translation>設置</translation>
+    </message>
+    <message>
+        <location filename="../../view/main_window.py" line="50"/>
+        <source>gachaHistory</source>
+        <translation>抽卡歷史</translation>
     </message>
 </context>
 <context>
@@ -212,6 +240,118 @@
         <location filename="../Pages/TPFileManager.ui" line="219"/>
         <source>Generate Custom TP File</source>
         <translation>生成自定義TP檔案</translation>
+    </message>
+</context>
+<context>
+    <name>gachaHistoryPageInterface</name>
+    <message>
+        <location filename="../../view/gachaHistoryInterface.py" line="97"/>
+        <source>Generating gacha records</source>
+        <translation>生成抽卡記錄</translation>
+    </message>
+    <message>
+        <location filename="../../view/gachaHistoryInterface.py" line="97"/>
+        <source>Please wait patiently</source>
+        <translation>請耐心等待</translation>
+    </message>
+    <message>
+        <location filename="../../view/gachaHistoryInterface.py" line="125"/>
+        <source>Gacha History URL not Found</source>
+        <translation>找不到抽卡歷史URL</translation>
+    </message>
+    <message>
+        <location filename="../../view/gachaHistoryInterface.py" line="125"/>
+        <source>Please open gacha history in game and try again</source>
+        <translation>請在遊戲中打開抽卡歷史記錄，然後重試</translation>
+    </message>
+    <message>
+        <location filename="../../view/gachaHistoryInterface.py" line="128"/>
+        <source>Error</source>
+        <translation>錯誤</translation>
+    </message>
+    <message>
+        <location filename="../../view/gachaHistoryInterface.py" line="128"/>
+        <source>{e}</source>
+        <translation>{e}</translation>
+    </message>
+    <message>
+        <location filename="../../view/gachaHistoryInterface.py" line="160"/>
+        <source>Total number of pulls: {total_count}
+⭐️⭐️⭐️ counts: {three_star_count}
+⭐️⭐️⭐️⭐️ counts: {four_star_count}
+⭐️⭐️⭐️⭐️⭐️ counts: {five_star_count}
+Pulls left until next pity: {countdown}
+Average Pity: {average_five_star_interval}
+</source>
+        <translation>当前卡池总抽数: {total_count}
+⭐️⭐️⭐️ 抽数: {three_star_count}
+⭐️⭐️⭐️⭐️ 抽数: {four_star_count}
+⭐️⭐️⭐️⭐️⭐️ 抽数: {five_star_count}
+距下次保底剩余抽数: {countdown}
+平均抽数: {average_five_star_interval}
+</translation>
+    </message>
+    <message>
+        <location filename="../../view/gachaHistoryInterface.py" line="91"/>
+        <source>How To Use</source>
+        <translation>使用方法</translation>
+    </message>
+    <message>
+        <location filename="../../view/gachaHistoryInterface.py" line="91"/>
+        <source>1.Open gacha history in game,and ensure that history can be loaded properly
+2.Click &quot;Get Gacha History&quot;
+3.Wait for generate</source>
+        <translation>1.在遊戲中打開抽卡歷史記錄，並確保歷史記錄可以正確加載
+2.點擊“獲取抽卡歷史”
+3.等待生成</translation>
+    </message>
+</context>
+<context>
+    <name>gachaHistoryWindow</name>
+    <message>
+        <location filename="../Pages/gachaHistory.ui" line="14"/>
+        <source>gachaHistory</source>
+        <translation>抽卡歷史</translation>
+    </message>
+    <message>
+        <location filename="../Pages/gachaHistory.ui" line="42"/>
+        <source>Pools:</source>
+        <translation>卡池：</translation>
+    </message>
+    <message>
+        <location filename="../Pages/gachaHistory.ui" line="61"/>
+        <source>Only Show ⭐️⭐️⭐️⭐️⭐️</source>
+        <translation>僅顯示⭐️⭐️⭐️⭐️⭐️</translation>
+    </message>
+    <message>
+        <location filename="../Pages/gachaHistory.ui" line="91"/>
+        <source>Get Gacha History</source>
+        <translation>獲取抽卡歷史</translation>
+    </message>
+    <message>
+        <location filename="../Pages/gachaHistory.ui" line="157"/>
+        <source>⭐️⭐️⭐️</source>
+        <translation>⭐️⭐️⭐️</translation>
+    </message>
+    <message>
+        <location filename="../Pages/gachaHistory.ui" line="210"/>
+        <source>⭐️⭐️⭐️⭐️</source>
+        <translation>⭐️⭐️⭐️⭐️</translation>
+    </message>
+    <message>
+        <location filename="../Pages/gachaHistory.ui" line="251"/>
+        <source>⭐️⭐️⭐️⭐️⭐️</source>
+        <translation>⭐️⭐️⭐️⭐️⭐️</translation>
+    </message>
+    <message>
+        <location filename="../Pages/gachaHistory.ui" line="288"/>
+        <source>Win 50/50</source>
+        <translation>小保底沒歪占比</translation>
+    </message>
+    <message>
+        <location filename="../Pages/gachaHistory.ui" line="84"/>
+        <source>Usage</source>
+        <translation>使用方法</translation>
     </message>
 </context>
 <context>

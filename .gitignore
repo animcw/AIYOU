@@ -166,3 +166,8 @@ AppData/modDescription.json
 AppData/Tools/*
 AppData/custom_TP_file/*
 Engine/*
+
+/download.py
+/find_url.py
+/get_gacha_url.py
+

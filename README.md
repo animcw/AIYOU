@@ -8,15 +8,17 @@
 
 # Features
 
+- [x] 账号切换
+
 - [x] 启动参数设置
 
-- 账号切换
+- 解锁120帧
 
 - 窗口模式
 
 - 窗口大小
 
-- 附加参数
+- 自定义分辨率
 
 - [x] 管理Mod
 
@@ -24,19 +26,23 @@
 
 - 删除Mod
 
-- [x] Mod详情显示
+- Mod详情显示
 
 - [x] TP文件自定义
 
-- [x] 国际化
+- [x] 抽卡记录统计
 
-- [x] 主题设置
+- [x] 应用设置
 
-# In-Build
+- 语言设置
 
-- [ ] 双端转换（CN < -- > OS）
+- 应用主题设置
 
-- [ ] 宏操作
+- 主题色设置
+
+- 界面缩放设置
+
+- 检查更新
 
 # Install
 
@@ -46,7 +52,7 @@
 
 1. Release中下载最新的版本
 
-2. 双击启动
+2. 解压AIYOU.zip,运行AIYOU.exe
 
 3. 选择 `Client-Win64-Shipping.exe` 的路径，注意不是WuWa.exe的哦~~
 
@@ -65,17 +71,17 @@ pyinstaller --upx-dir "path/to/your/upx" main.spec
 
 # Preview
 
-> 
+![](https://cdn.jsdelivr.net/gh/Cey1anze/Blog_Images@main/pic/202407071746630.png)
 
-![](https://cdn.jsdelivr.net/gh/Cey1anze/Blog_Images@main/pic/202406302149774.png)
+![](https://cdn.jsdelivr.net/gh/Cey1anze/Blog_Images@main/pic/202407071750737.png)
 
-![](https://cdn.jsdelivr.net/gh/Cey1anze/Blog_Images@main/pic/202406302154207.png)
+![](https://cdn.jsdelivr.net/gh/Cey1anze/Blog_Images@main/pic/202407071751246.png)
 
-![](https://cdn.jsdelivr.net/gh/Cey1anze/Blog_Images@main/pic/202406302155277.png)
+![](https://cdn.jsdelivr.net/gh/Cey1anze/Blog_Images@main/pic/202407071805050.png)
 
-![](https://cdn.jsdelivr.net/gh/Cey1anze/Blog_Images@main/pic/202406302155170.png)
+![](https://cdn.jsdelivr.net/gh/Cey1anze/Blog_Images@main/pic/202407071806812.png)
 
-![](https://cdn.jsdelivr.net/gh/Cey1anze/Blog_Images@main/pic/202406302156653.png)
+![](https://cdn.jsdelivr.net/gh/Cey1anze/Blog_Images@main/pic/202407071806057.png)
 
 # Contribute
 
@@ -84,5 +90,3 @@ Feel free to PR here!!!
 # 反馈BUG
 
 在issue里面提交或直接私我
-
-
