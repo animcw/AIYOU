@@ -94,42 +94,40 @@ class gachaHistoryPageInterface(QWidget, Ui_gachaHistoryWindow):
                             '3.Wait for generate'), self.usageButton, FlyoutAnimationType.DROP_DOWN)
 
     def fetch_gacha_history(self):
-        show_info_bar(self, 'info', self.tr('Generating gacha records'), self.tr('Please wait patiently'))
         log_path = os.path.join(cfg.get(cfg.gamePath.value), '..', '..', '..', 'Saved', 'Logs',
                                 'Client.log')
         url = find_record(log_path)
 
         def run():
             try:
-                if url:
-                    params = extract_fragment_params(url)
-                    player_id = params['player_id']
-                    cardPoolId = params['resources_id']
-                    serverId = params['svr_id']
-                    recordId = params['record_id']
+                params = extract_fragment_params(url)
+                player_id = params['player_id']
+                cardPoolId = params['resources_id']
+                serverId = params['svr_id']
+                recordId = params['record_id']
 
-                    records = fetch_gacha_records(player_id, cardPoolId, cardPoolType, serverId, recordId)
-                    if records is None:
-                        show_info_bar(self, 'error', 'History URL Found,But records Get Failed', self.tr(''))
-                        return
-                    self.records = records
-                    generate_images(records, cardPoolType)
+                records = fetch_gacha_records(player_id, cardPoolId, cardPoolType, serverId, recordId)
+                if records is None:
+                    show_info_bar(self, 'error', 'History URL Found,But records Get Failed', self.tr(''))
+                    return
+                self.records = records
+                generate_images(records, cardPoolType)
 
-                    self.ComboBox.clear()
-                    for name in os.listdir(self.image_folder_path):
-                        if name in self.folder_mapping:
-                            self.ComboBox.addItem(name)
-                    self.ComboBox.setCurrentIndex(0)
-                    self.ComboBox.setEnabled(True)
-                else:
-                    show_info_bar(self, 'error', self.tr('Gacha History URL not Found'),
-                                  self.tr('Please open gacha history in game and try again'))
+                self.ComboBox.clear()
+                for name in os.listdir(self.image_folder_path):
+                    if name in self.folder_mapping:
+                        self.ComboBox.addItem(name)
+                self.ComboBox.setCurrentIndex(0)
+                self.ComboBox.setEnabled(True)
             except Exception as e:
                 show_info_bar(self, 'error', self.tr('Error'), self.tr(f'{e}'))
-
-        # 创建并启动新线程
-        thread = threading.Thread(target=run)
-        thread.start()
+        if url:
+            show_info_bar(self, 'info', self.tr('Generating gacha records'), self.tr('Please wait patiently'))
+            thread = threading.Thread(target=run)
+            thread.start()
+        else:
+            show_info_bar(self, 'error', self.tr('Gacha History URL not Found'),
+                          self.tr('Please open gacha history in game and try again'))
 
     def calculate_up_probability(self, index, five_star_intervals):
         list_json = resource_path('app/resource/FiveStarList.json')

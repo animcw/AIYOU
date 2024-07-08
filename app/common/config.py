@@ -248,6 +248,7 @@ YEAR = 2024
 AUTHOR = "RoosterBrother"
 VERSION = "0.1.5"
 VERSION_CHECK_CHECK = "https://gitee.com/wxdxyyds/aiyou/raw/master/version"
+VERSION_CHECK_BACKUP = "https://raw.githubusercontent.com/RoosterBrother/AIYOU/main/AppData/version"
 MOD_DESCRIPTION_URL = "https://gitee.com/wxdxyyds/aiyou_-translate/raw/master/modDescription.json"
 FEEDBACK_URL = "https://github.com/RoosterBrother/AIYOU"
 RELEASE_URL = "https://github.com/RoosterBrother/AIYOU/releases"
