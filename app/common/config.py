@@ -246,12 +246,13 @@ class Config(QConfig):
 
 YEAR = 2024
 AUTHOR = "RoosterBrother"
-VERSION = "0.1.5"
+VERSION = "0.1.6"
 VERSION_CHECK_CHECK = "https://gitee.com/wxdxyyds/aiyou/raw/master/version"
 VERSION_CHECK_BACKUP = "https://raw.githubusercontent.com/RoosterBrother/AIYOU/main/AppData/version"
 MOD_DESCRIPTION_URL = "https://gitee.com/wxdxyyds/aiyou_-translate/raw/master/modDescription.json"
 FEEDBACK_URL = "https://github.com/RoosterBrother/AIYOU"
 RELEASE_URL = "https://github.com/RoosterBrother/AIYOU/releases"
+AUTO_UPDATE_URL = "https://ceylanze.me/AIYOU.zip"
 
 cfg = Config()
 qconfig.load(os.path.join(os.getcwd(), 'AppData', 'config.json'), cfg)

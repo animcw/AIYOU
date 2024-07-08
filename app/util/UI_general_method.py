@@ -64,7 +64,7 @@ def show_info_bar(window, info_type, title, info):
             content=info,
             orient=Qt.Horizontal,
             isClosable=True,
-            position=InfoBarPosition.BOTTOM_LEFT,
+            position=InfoBarPosition.BOTTOM,
             duration=5000,
             parent=window
         )

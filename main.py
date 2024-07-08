@@ -13,6 +13,10 @@ from app.view.main_window import MainWindow
 
 get_block_status()
 
+update_bat = os.path.join(os.getcwd(), 'update.bat')
+if os.path.exists(update_bat):
+    os.remove(update_bat)
+
 # enable dpi scale
 if cfg.get(cfg.dpiScale) != "Auto":
     os.environ["QT_ENABLE_HIGHDPI_SCALING"] = "0"

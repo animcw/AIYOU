@@ -3,13 +3,16 @@ from urllib.parse import parse_qs
 
 import requests
 
-from app.common.config import VERSION_CHECK_CHECK, MOD_DESCRIPTION_URL
+from app.common.config import VERSION_CHECK_CHECK, MOD_DESCRIPTION_URL, VERSION_CHECK_BACKUP
 
 proxies = {
     "http": None,
     "https": None,
 }
 
+
+# --------------- #
+# Mod Description
 
 def load_description():
     try:
@@ -22,25 +25,32 @@ def load_description():
         return None
 
 
+# --------------- #
+# Check Update
+
 def get_version_data():
+    VERSION_CHECK_URLS = [VERSION_CHECK_CHECK, VERSION_CHECK_BACKUP]
     try:
-        response = requests.get(VERSION_CHECK_CHECK, proxies=proxies)
+        for url in VERSION_CHECK_URLS:
+            response = requests.get(url, proxies=proxies)
 
-        response.raise_for_status()
-        file_content = response.text
-        lines = file_content.split('\n')
+            response.raise_for_status()
+            file_content = response.text
+            lines = file_content.split('\n')
 
-        data = {}
-        for line in lines:
-            if line.strip():
-                key, value = line.split(':', 1)
-                data[key.strip()] = value.strip()
+            data = {}
+            for line in lines:
+                if line.strip():
+                    key, value = line.split(':', 1)
+                    data[key.strip()] = value.strip()
 
-        return data
+            return data
     except requests.exceptions.RequestException as e:
-        print(f"An error occurred: {e}")
         return '0.0.0'
 
+
+# --------------- #
+# Gacha History
 
 def find_record(log_file_path):
     # 定义要匹配的模式
@@ -148,3 +158,18 @@ def fetch_gacha_records(playerId, cardPoolId, cardPoolType, serverId, recordId):
         }
     #print(records)
     return records
+
+
+# --------------- #
+# Auto Update
+
+def download_file(url, file_path):
+    headers = {
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.3'
+    }
+
+    with requests.get(url, stream=True, headers=headers, proxies=proxies) as r:
+        r.raise_for_status()
+        with open(file_path, 'wb') as f:
+            for chunk in r.iter_content(chunk_size=8192):
+                f.write(chunk)

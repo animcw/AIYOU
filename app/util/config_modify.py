@@ -1,7 +1,9 @@
 import configparser
 import json
 import os
+import subprocess
 import sys
+import threading
 import time
 
 import win32api
@@ -11,9 +13,9 @@ from PyQt5.QtGui import QDesktopServices
 from PyQt5.QtWidgets import QFileDialog
 from qfluentwidgets import MessageBox
 
-from app.common.config import VERSION, RELEASE_URL, check_client_version
+from app.common.config import VERSION, check_client_version, AUTO_UPDATE_URL, RELEASE_URL
 from app.util.UI_general_method import show_info_bar
-from app.util.requests_general import get_version_data
+from app.util.requests_general import get_version_data, download_file
 
 
 def initialize_config(self):
@@ -134,21 +136,23 @@ def show_message_box(title, message, icon):
     win32api.MessageBox(0, message, title, icon)
 
 
-def checkUpdate(self):
-    version_json = get_version_data()
-    online_version = version_json.get('version', '0.0.0')
-    version_status = compare_versions(online_version, VERSION)
-    if not version_status:
-        show_info_bar(self, 'warning', self.tr('Found new version'), self.tr('Please update ASAP.'))
-        show_update_box(self)
-    else:
-        show_info_bar(self, 'success', self.tr("It is already the latest version"), "")
+def generate_bat_file():
+    bat_content = (
+        "@echo off\n"
+        "timeout /t 2 /nobreak\n"
+        "taskkill /F /IM AIYOU.exe\n"
+        "timeout /t 2 /nobreak\n"
+        "powershell -Command \"Add-Type -AssemblyName System.IO.Compression.FileSystem; "
+        "[System.IO.Compression.ZipFile]::ExtractToDirectory('AIYOU.zip', '.\\temp');\"\n"
+        "xcopy /E /I /Y /Q .\\temp\\AIYOU\\* .\\ >nul\n"
+        "rd /S /Q .\\temp\n"
+        "del AIYOU.zip\n"
+        "powershell -Command \"Start-Process -FilePath '.\\AIYOU.exe' -Verb runAs\"\n"
+        "exit"
+    )
 
-
-def show_update_box(self):
-    w = MessageBox(self.tr("Found new version"), self.tr("Click to update ~~"), self)
-    if w.exec():
-        QDesktopServices.openUrl(QUrl(RELEASE_URL))
+    with open("update.bat", "w") as bat_file:
+        bat_file.write(bat_content)
 
 
 def compare_versions(version1, version2):

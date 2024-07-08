@@ -1,15 +1,22 @@
 # coding:utf-8
+import os
+import subprocess
+import threading
+
+import win32con
 from PyQt5.QtCore import Qt, QUrl
 from PyQt5.QtGui import QDesktopServices
 from PyQt5.QtWidgets import QWidget
-from qfluentwidgets import FluentIcon as FIF
+from qfluentwidgets import FluentIcon as FIF, MessageBox
 from qfluentwidgets import (SettingCardGroup, OptionsSettingCard, PushSettingCard,
                             PrimaryPushSettingCard, ScrollArea,
                             ComboBoxSettingCard, ExpandLayout, Theme, InfoBar, CustomColorSettingCard,
                             setTheme, isDarkTheme)
 
-from app.common.config import cfg, FEEDBACK_URL, AUTHOR, VERSION, YEAR
-from app.util.config_modify import checkUpdate, resource_path
+from app.common.config import cfg, FEEDBACK_URL, AUTHOR, VERSION, YEAR, RELEASE_URL, AUTO_UPDATE_URL
+from app.util.UI_general_method import show_info_bar
+from app.util.config_modify import checkUpdate, resource_path, compare_versions, generate_bat_file, show_message_box
+from app.util.requests_general import get_version_data, download_file
 
 
 class SettingInterface(ScrollArea):
@@ -169,9 +176,37 @@ class SettingInterface(ScrollArea):
             lambda: QDesktopServices.openUrl(QUrl.fromLocalFile(cfg.get(cfg.cacheFolder))))
 
         # about
-        self.aboutCard.clicked.connect(self.doCheck)
+        self.aboutCard.clicked.connect(self.checkUpdate)
         self.feedbackCard.clicked.connect(
             lambda: QDesktopServices.openUrl(QUrl(FEEDBACK_URL)))
 
-    def doCheck(self):
-        checkUpdate(self)
+    def checkUpdate(self):
+        version_json = get_version_data()
+        online_version = version_json.get('version', '0.0.0')
+        version_status = compare_versions(online_version, VERSION)
+        if not version_status:
+            show_info_bar(self, 'warning', self.tr('Found new version'), self.tr('Please update ASAP.'))
+            self.show_update_box()
+        else:
+            show_info_bar(self, 'success', self.tr("It is already the latest version"), "")
+
+    def show_update_box(self):
+        w = MessageBox(self.tr("Found new version"), self.tr("Click to update ~~"), self)
+        if w.exec():
+            show_info_bar(self, 'info', self.tr('Trying to auto update'), self.tr('Downloading,please hold on...'))
+
+            def run_update():
+                self.run_bat_update(AUTO_UPDATE_URL)
+
+            thread = threading.Thread(target=run_update)
+            thread.start()
+
+    def run_bat_update(self, url):
+        download_path = 'AIYOU.zip'
+        download_file(url, download_path)
+        if os.path.exists(download_path):
+            generate_bat_file()
+            subprocess.Popen(["cmd.exe", "/c", "start", "update.bat"])
+        else:
+            show_message_box('Error', 'Download Failed', win32con.MB_ICONERROR)
+            QDesktopServices.openUrl(QUrl(RELEASE_URL))

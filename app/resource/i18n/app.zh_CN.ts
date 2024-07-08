@@ -2,29 +2,6 @@
 <!DOCTYPE TS>
 <TS version="2.1" language="zh_CN" sourcelanguage="en_US">
 <context>
-    <name></name>
-    <message>
-        <location filename="../../util/config_modify.py" line="149"/>
-        <source>Found new version</source>
-        <translation>发现新版本</translation>
-    </message>
-    <message>
-        <location filename="../../util/config_modify.py" line="142"/>
-        <source>Please update ASAP.</source>
-        <translation>请尽快更新。</translation>
-    </message>
-    <message>
-        <location filename="../../util/config_modify.py" line="145"/>
-        <source>It is already the latest version</source>
-        <translation>已经是最新版本了</translation>
-    </message>
-    <message>
-        <location filename="../../util/config_modify.py" line="149"/>
-        <source>Click to update ~~</source>
-        <translation>点击确认更新~~</translation>
-    </message>
-</context>
-<context>
     <name>MainWindow</name>
     <message>
         <location filename="../../view/main_window.py" line="47"/>
@@ -55,119 +32,149 @@
 <context>
     <name>SettingInterface</name>
     <message>
-        <location filename="../../view/setting_interface.py" line="25"/>
+        <location filename="../../view/setting_interface.py" line="32"/>
         <source>Program Folders</source>
         <translation>程序文件夹</translation>
     </message>
     <message>
-        <location filename="../../view/setting_interface.py" line="34"/>
+        <location filename="../../view/setting_interface.py" line="41"/>
         <source>Open folder</source>
         <translation>打开文件夹</translation>
     </message>
     <message>
-        <location filename="../../view/setting_interface.py" line="27"/>
+        <location filename="../../view/setting_interface.py" line="34"/>
         <source>AppData Directory</source>
         <translation>程序数据目录</translation>
     </message>
     <message>
-        <location filename="../../view/setting_interface.py" line="34"/>
+        <location filename="../../view/setting_interface.py" line="41"/>
         <source>Server Cache directory</source>
         <translation>服务器缓存目录</translation>
     </message>
     <message>
-        <location filename="../../view/setting_interface.py" line="43"/>
+        <location filename="../../view/setting_interface.py" line="50"/>
         <source>Personalization</source>
         <translation>个性化</translation>
     </message>
     <message>
-        <location filename="../../view/setting_interface.py" line="44"/>
+        <location filename="../../view/setting_interface.py" line="51"/>
         <source>Application theme</source>
         <translation>应用主题</translation>
     </message>
     <message>
-        <location filename="../../view/setting_interface.py" line="44"/>
+        <location filename="../../view/setting_interface.py" line="51"/>
         <source>Change the appearance of your application</source>
         <translation>更改应用程序的外观</translation>
     </message>
     <message>
-        <location filename="../../view/setting_interface.py" line="44"/>
+        <location filename="../../view/setting_interface.py" line="51"/>
         <source>Light</source>
         <translation>浅色</translation>
     </message>
     <message>
-        <location filename="../../view/setting_interface.py" line="44"/>
+        <location filename="../../view/setting_interface.py" line="51"/>
         <source>Dark</source>
         <translation>深色</translation>
     </message>
     <message>
-        <location filename="../../view/setting_interface.py" line="73"/>
+        <location filename="../../view/setting_interface.py" line="80"/>
         <source>Use system setting</source>
         <translation>跟随系统设置</translation>
     </message>
     <message>
-        <location filename="../../view/setting_interface.py" line="55"/>
+        <location filename="../../view/setting_interface.py" line="62"/>
         <source>Theme color</source>
         <translation>主题颜色</translation>
     </message>
     <message>
-        <location filename="../../view/setting_interface.py" line="55"/>
+        <location filename="../../view/setting_interface.py" line="62"/>
         <source>Change the theme color of you application</source>
         <translation>更改应用程序的主题颜色</translation>
     </message>
     <message>
-        <location filename="../../view/setting_interface.py" line="62"/>
+        <location filename="../../view/setting_interface.py" line="69"/>
         <source>Interface zoom</source>
         <translation>界面缩放</translation>
     </message>
     <message>
-        <location filename="../../view/setting_interface.py" line="62"/>
+        <location filename="../../view/setting_interface.py" line="69"/>
         <source>Change the size of widgets and fonts</source>
         <translation>更改部件和字体的大小</translation>
     </message>
     <message>
-        <location filename="../../view/setting_interface.py" line="73"/>
+        <location filename="../../view/setting_interface.py" line="80"/>
         <source>Language</source>
         <translation>语言</translation>
     </message>
     <message>
-        <location filename="../../view/setting_interface.py" line="73"/>
+        <location filename="../../view/setting_interface.py" line="80"/>
         <source>Set your preferred language for UI</source>
         <translation>设置UI的首选语言</translation>
     </message>
     <message>
-        <location filename="../../view/setting_interface.py" line="91"/>
+        <location filename="../../view/setting_interface.py" line="98"/>
         <source>About</source>
         <translation>关于</translation>
     </message>
     <message>
-        <location filename="../../view/setting_interface.py" line="84"/>
+        <location filename="../../view/setting_interface.py" line="91"/>
         <source>Provide feedback</source>
         <translation>提供反馈</translation>
     </message>
     <message>
-        <location filename="../../view/setting_interface.py" line="84"/>
+        <location filename="../../view/setting_interface.py" line="91"/>
         <source>Help us improve AIYOU by providing feedback</source>
         <translation>通过提供反馈帮助我们改进AIYOU</translation>
     </message>
     <message>
-        <location filename="../../view/setting_interface.py" line="91"/>
+        <location filename="../../view/setting_interface.py" line="98"/>
         <source>Check update</source>
         <translation>检查更新</translation>
     </message>
     <message>
-        <location filename="../../view/setting_interface.py" line="91"/>
+        <location filename="../../view/setting_interface.py" line="98"/>
         <source>Copyright</source>
         <translation>版权所有</translation>
     </message>
     <message>
-        <location filename="../../view/setting_interface.py" line="91"/>
+        <location filename="../../view/setting_interface.py" line="98"/>
         <source>Version</source>
         <translation>版本</translation>
     </message>
     <message>
-        <location filename="../../view/setting_interface.py" line="146"/>
+        <location filename="../../view/setting_interface.py" line="153"/>
         <source>Configuration takes effect after restart</source>
         <translation>配置在重启后生效</translation>
+    </message>
+    <message>
+        <location filename="../../view/setting_interface.py" line="194"/>
+        <source>Found new version</source>
+        <translation>发现新版本</translation>
+    </message>
+    <message>
+        <location filename="../../view/setting_interface.py" line="188"/>
+        <source>Please update ASAP.</source>
+        <translation>请尽快更新。</translation>
+    </message>
+    <message>
+        <location filename="../../view/setting_interface.py" line="191"/>
+        <source>It is already the latest version</source>
+        <translation>已经是最新版本了</translation>
+    </message>
+    <message>
+        <location filename="../../view/setting_interface.py" line="194"/>
+        <source>Click to update ~~</source>
+        <translation>点击确认更新~~</translation>
+    </message>
+    <message>
+        <location filename="../../view/setting_interface.py" line="196"/>
+        <source>Trying to auto update</source>
+        <translation>正在尝试自动更新</translation>
+    </message>
+    <message>
+        <location filename="../../view/setting_interface.py" line="196"/>
+        <source>Downloading,please hold on...</source>
+        <translation>正在下载，请稍候...</translation>
     </message>
 </context>
 <context>
@@ -245,37 +252,37 @@
 <context>
     <name>gachaHistoryPageInterface</name>
     <message>
-        <location filename="../../view/gachaHistoryInterface.py" line="97"/>
+        <location filename="../../view/gachaHistoryInterface.py" line="125"/>
         <source>Generating gacha records</source>
         <translation>生成抽卡记录</translation>
     </message>
     <message>
-        <location filename="../../view/gachaHistoryInterface.py" line="97"/>
+        <location filename="../../view/gachaHistoryInterface.py" line="125"/>
         <source>Please wait patiently</source>
         <translation>请耐心等待</translation>
     </message>
     <message>
-        <location filename="../../view/gachaHistoryInterface.py" line="125"/>
+        <location filename="../../view/gachaHistoryInterface.py" line="129"/>
         <source>Gacha History URL not Found</source>
         <translation>找不到抽卡历史URL</translation>
     </message>
     <message>
-        <location filename="../../view/gachaHistoryInterface.py" line="125"/>
+        <location filename="../../view/gachaHistoryInterface.py" line="129"/>
         <source>Please open gacha history in game and try again</source>
         <translation>请在游戏中打开抽卡历史记录，然后重试</translation>
     </message>
     <message>
-        <location filename="../../view/gachaHistoryInterface.py" line="128"/>
+        <location filename="../../view/gachaHistoryInterface.py" line="123"/>
         <source>Error</source>
         <translation>错误</translation>
     </message>
     <message>
-        <location filename="../../view/gachaHistoryInterface.py" line="128"/>
+        <location filename="../../view/gachaHistoryInterface.py" line="123"/>
         <source>{e}</source>
         <translation>{e}</translation>
     </message>
     <message>
-        <location filename="../../view/gachaHistoryInterface.py" line="160"/>
+        <location filename="../../view/gachaHistoryInterface.py" line="158"/>
         <source>Total number of pulls: {total_count}
 ⭐️⭐️⭐️ counts: {three_star_count}
 ⭐️⭐️⭐️⭐️ counts: {four_star_count}
