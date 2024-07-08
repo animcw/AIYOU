@@ -6,9 +6,12 @@ from PyQt5.QtCore import Qt, QTranslator
 from PyQt5.QtWidgets import QApplication
 from qfluentwidgets import FluentTranslator
 
+from app.common.block_client import get_block_status
 from app.common.config import cfg
 from app.util.config_modify import resource_path
 from app.view.main_window import MainWindow
+
+get_block_status()
 
 # enable dpi scale
 if cfg.get(cfg.dpiScale) != "Auto":
