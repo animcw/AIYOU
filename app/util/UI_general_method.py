@@ -9,8 +9,6 @@ from PyQt5.QtGui import QIcon
 from PyQt5.QtWidgets import QTreeWidgetItem
 from qfluentwidgets import InfoBar, InfoBarPosition, Flyout, SubtitleLabel, LineEdit, MessageBoxBase
 
-from app.common.config import cfg
-
 
 class CustomMessageBox(MessageBoxBase):
     """ Custom message box """

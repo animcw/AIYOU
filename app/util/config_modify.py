@@ -1,21 +1,14 @@
 import configparser
 import json
 import os
-import subprocess
 import sys
-import threading
 import time
 
 import win32api
 import win32con
-from PyQt5.QtCore import QUrl
-from PyQt5.QtGui import QDesktopServices
 from PyQt5.QtWidgets import QFileDialog
-from qfluentwidgets import MessageBox
 
-from app.common.config import VERSION, check_client_version, AUTO_UPDATE_URL, RELEASE_URL
-from app.util.UI_general_method import show_info_bar
-from app.util.requests_general import get_version_data, download_file
+from app.common.config import check_client_version
 
 
 def initialize_config(self):

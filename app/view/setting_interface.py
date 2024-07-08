@@ -15,7 +15,7 @@ from qfluentwidgets import (SettingCardGroup, OptionsSettingCard, PushSettingCar
 
 from app.common.config import cfg, FEEDBACK_URL, AUTHOR, VERSION, YEAR, RELEASE_URL, AUTO_UPDATE_URL
 from app.util.UI_general_method import show_info_bar
-from app.util.config_modify import checkUpdate, resource_path, compare_versions, generate_bat_file, show_message_box
+from app.util.config_modify import resource_path, compare_versions, generate_bat_file, show_message_box
 from app.util.requests_general import get_version_data, download_file
 
 
