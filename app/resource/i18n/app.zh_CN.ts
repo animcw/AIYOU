@@ -2,29 +2,52 @@
 <!DOCTYPE TS>
 <TS version="2.1" language="zh_CN" sourcelanguage="en_US">
 <context>
+    <name></name>
+    <message>
+        <location filename="../../util/config_modify.py" line="32"/>
+        <source>No Game Executable File Selected</source>
+        <translation>未选择游戏的可执行文件</translation>
+    </message>
+    <message>
+        <location filename="../../util/config_modify.py" line="32"/>
+        <source>Please Select Game Executable File：Client-Win64-Shipping.exe</source>
+        <translation>请选择游戏的可执行文件：Client-Win64-Shipping.exe</translation>
+    </message>
+    <message>
+        <location filename="../../util/config_modify.py" line="35"/>
+        <source>Select Game Executable File：Client-Win64-Shipping.exe</source>
+        <translation>选择游戏的可执行文件：Client-Win64-Shipping.exe</translation>
+    </message>
+    <message>
+        <location filename="../../util/config_modify.py" line="35"/>
+        <source>Executable Files (*.exe)</source>
+        <translation>可执行文件 (*.exe)</translation>
+    </message>
+</context>
+<context>
     <name>MainWindow</name>
     <message>
-        <location filename="../../view/main_window.py" line="47"/>
+        <location filename="../../view/main_window.py" line="49"/>
         <source>Game</source>
         <translation>游戏设置</translation>
     </message>
     <message>
-        <location filename="../../view/main_window.py" line="48"/>
+        <location filename="../../view/main_window.py" line="50"/>
         <source>Mod</source>
         <translation>Mod管理</translation>
     </message>
     <message>
-        <location filename="../../view/main_window.py" line="49"/>
+        <location filename="../../view/main_window.py" line="51"/>
         <source>TP Files</source>
         <translation>TP文件管理</translation>
     </message>
     <message>
-        <location filename="../../view/main_window.py" line="51"/>
+        <location filename="../../view/main_window.py" line="53"/>
         <source>Setting</source>
         <translation>设置</translation>
     </message>
     <message>
-        <location filename="../../view/main_window.py" line="50"/>
+        <location filename="../../view/main_window.py" line="52"/>
         <source>gachaHistory</source>
         <translation>抽卡历史</translation>
     </message>
@@ -364,144 +387,211 @@ Average Pity: {average_five_star_interval}
 <context>
     <name>gameSettingInterface</name>
     <message>
-        <location filename="../../view/gameSetting_interface.py" line="83"/>
+        <location filename="../../view/gameSetting_interface.py" line="34"/>
         <source>Start Game</source>
         <translation>启动游戏</translation>
     </message>
     <message>
-        <location filename="../../view/gameSetting_interface.py" line="91"/>
+        <location filename="../../view/gameSetting_interface.py" line="42"/>
         <source>Client Settings</source>
         <translation>客户端设置</translation>
     </message>
     <message>
-        <location filename="../../view/gameSetting_interface.py" line="93"/>
+        <location filename="../../view/gameSetting_interface.py" line="44"/>
         <source>Client Version Switch</source>
         <translation>客户端版本转换</translation>
     </message>
     <message>
-        <location filename="../../view/gameSetting_interface.py" line="93"/>
+        <location filename="../../view/gameSetting_interface.py" line="44"/>
         <source>Set your preferred client version</source>
         <translation>设置您的首选客户端版本</translation>
     </message>
     <message>
-        <location filename="../../view/gameSetting_interface.py" line="93"/>
+        <location filename="../../view/gameSetting_interface.py" line="44"/>
         <source>CN</source>
         <translation>国服</translation>
     </message>
     <message>
-        <location filename="../../view/gameSetting_interface.py" line="93"/>
+        <location filename="../../view/gameSetting_interface.py" line="44"/>
         <source>OS</source>
         <translation>国际服</translation>
     </message>
     <message>
-        <location filename="../../view/gameSetting_interface.py" line="101"/>
+        <location filename="../../view/gameSetting_interface.py" line="52"/>
         <source>Account Switch</source>
         <translation>账号切换</translation>
     </message>
     <message>
-        <location filename="../../view/gameSetting_interface.py" line="101"/>
+        <location filename="../../view/gameSetting_interface.py" line="52"/>
         <source>Choose your preferred account(CN is not supported)</source>
         <translation>选择您的首选帐户(不支持国服)</translation>
     </message>
     <message>
-        <location filename="../../view/gameSetting_interface.py" line="111"/>
+        <location filename="../../view/gameSetting_interface.py" line="61"/>
         <source>Startup Settings</source>
         <translation>启动设置</translation>
     </message>
     <message>
-        <location filename="../../view/gameSetting_interface.py" line="112"/>
+        <location filename="../../view/gameSetting_interface.py" line="76"/>
         <source>Using -fileopenlog Commands to load mods</source>
         <translation>使用-fileopenlog命令加载mod</translation>
     </message>
     <message>
-        <location filename="../../view/gameSetting_interface.py" line="126"/>
+        <location filename="../../view/gameSetting_interface.py" line="93"/>
         <source>Display Mode</source>
         <translation>显示模式</translation>
     </message>
     <message>
-        <location filename="../../view/gameSetting_interface.py" line="126"/>
+        <location filename="../../view/gameSetting_interface.py" line="93"/>
         <source>Set your preferred display mode</source>
         <translation>设置您的首选显示模式</translation>
     </message>
     <message>
-        <location filename="../../view/gameSetting_interface.py" line="126"/>
+        <location filename="../../view/gameSetting_interface.py" line="93"/>
         <source>Full Screen</source>
         <translation>全屏</translation>
     </message>
     <message>
-        <location filename="../../view/gameSetting_interface.py" line="126"/>
+        <location filename="../../view/gameSetting_interface.py" line="93"/>
         <source>Windows</source>
         <translation>窗口化</translation>
     </message>
     <message>
-        <location filename="../../view/gameSetting_interface.py" line="134"/>
+        <location filename="../../view/gameSetting_interface.py" line="101"/>
         <source>Windowed Resolution</source>
         <translation>窗口化分辨率</translation>
     </message>
     <message>
-        <location filename="../../view/gameSetting_interface.py" line="134"/>
+        <location filename="../../view/gameSetting_interface.py" line="101"/>
         <source>Set your preferred Resolution</source>
         <translation>设置首选分辨率</translation>
     </message>
     <message>
-        <location filename="../../view/gameSetting_interface.py" line="83"/>
+        <location filename="../../view/gameSetting_interface.py" line="34"/>
         <source>Let&apos;s have some fun!</source>
         <translation>启动，启动，全部启动！</translation>
     </message>
     <message>
-        <location filename="../../view/gameSetting_interface.py" line="164"/>
-        <source>Start Successful!</source>
-        <translation>启动成功！</translation>
-    </message>
-    <message>
-        <location filename="../../view/gameSetting_interface.py" line="164"/>
+        <location filename="../../view/gameSetting_interface.py" line="171"/>
         <source>It&apos;s playtime</source>
         <translation>MC，启动</translation>
     </message>
     <message>
-        <location filename="../../view/gameSetting_interface.py" line="112"/>
-        <source>Load mods when the game starts</source>
-        <translation>启动游戏时加载Mod</translation>
-    </message>
-    <message>
-        <location filename="../../view/gameSetting_interface.py" line="119"/>
+        <location filename="../../view/gameSetting_interface.py" line="86"/>
         <source>Unlock 120 FPS</source>
         <translation>解锁120帧</translation>
     </message>
     <message>
-        <location filename="../../view/gameSetting_interface.py" line="119"/>
+        <location filename="../../view/gameSetting_interface.py" line="86"/>
         <source>Set the frame rate to 120</source>
         <translation>设置帧率为120</translation>
     </message>
     <message>
-        <location filename="../../view/gameSetting_interface.py" line="142"/>
+        <location filename="../../view/gameSetting_interface.py" line="109"/>
         <source>Enable custom resolution</source>
         <translation>启用自定义分辨率</translation>
     </message>
     <message>
-        <location filename="../../view/gameSetting_interface.py" line="142"/>
+        <location filename="../../view/gameSetting_interface.py" line="109"/>
         <source>Choose whether to use a custom resolution</source>
         <translation>是否开启自定义分辨率</translation>
     </message>
     <message>
-        <location filename="../../view/gameSetting_interface.py" line="149"/>
+        <location filename="../../view/gameSetting_interface.py" line="116"/>
         <source>Custom Width</source>
         <translation>自定义宽度</translation>
     </message>
     <message>
-        <location filename="../../view/gameSetting_interface.py" line="149"/>
+        <location filename="../../view/gameSetting_interface.py" line="116"/>
         <source>Minimum is 200 and maximum is the current screen width</source>
         <translation>最小为200，最大为屏幕宽度</translation>
     </message>
     <message>
-        <location filename="../../view/gameSetting_interface.py" line="155"/>
+        <location filename="../../view/gameSetting_interface.py" line="122"/>
         <source>Custom Height</source>
         <translation>自定义高度</translation>
     </message>
     <message>
-        <location filename="../../view/gameSetting_interface.py" line="155"/>
+        <location filename="../../view/gameSetting_interface.py" line="122"/>
         <source>Minimum is 200 and maximum is the current screen height</source>
         <translation>最小值为200，最大值为当前屏幕高度</translation>
+    </message>
+    <message>
+        <location filename="../../view/gameSetting_interface.py" line="62"/>
+        <source>Select launcher</source>
+        <translation>选择启动器</translation>
+    </message>
+    <message>
+        <location filename="../../view/gameSetting_interface.py" line="62"/>
+        <source>Launcher Selector</source>
+        <translation>启动器</translation>
+    </message>
+    <message>
+        <location filename="../../view/gameSetting_interface.py" line="68"/>
+        <source>Launch game by other launcher</source>
+        <translation>使用其他启动器打开游戏</translation>
+    </message>
+    <message>
+        <location filename="../../view/gameSetting_interface.py" line="68"/>
+        <source>Choose a different launcher to start game,other launcher&apos;s setting will override the setting of [Load mods]</source>
+        <translation>选择不同的启动器来启动游戏，其他启动器的设置将覆盖[加载模组]的设置</translation>
+    </message>
+    <message>
+        <location filename="../../view/gameSetting_interface.py" line="76"/>
+        <source>Load mods</source>
+        <translation>加载模组</translation>
+    </message>
+    <message>
+        <location filename="../../view/gameSetting_interface.py" line="85"/>
+        <source>Display Settings</source>
+        <translation>画面设置</translation>
+    </message>
+    <message>
+        <location filename="../../view/gameSetting_interface.py" line="142"/>
+        <source>Launcher Set</source>
+        <translation>启动器已设置</translation>
+    </message>
+    <message>
+        <location filename="../../view/gameSetting_interface.py" line="142"/>
+        <source>Need restart AIYOU to apply changes
+Click confirm or close this to restart</source>
+        <translation>应用更改需要重启AIYOU
+点击确定或关闭此窗口以自动重启</translation>
+    </message>
+    <message>
+        <location filename="../../view/gameSetting_interface.py" line="160"/>
+        <source>Start Failed</source>
+        <translation>启动失败</translation>
+    </message>
+    <message>
+        <location filename="../../view/gameSetting_interface.py" line="160"/>
+        <source>Read start-up setting failed,Received None type</source>
+        <translation>读取启动设置失败，返回了None类型</translation>
+    </message>
+    <message>
+        <location filename="../../view/gameSetting_interface.py" line="171"/>
+        <source>Starting</source>
+        <translation>正在启动</translation>
+    </message>
+    <message>
+        <location filename="../../view/gameSetting_interface.py" line="132"/>
+        <source>No Other Launcher Executable File Selected</source>
+        <translation>未选择其他启动器的可执行文件</translation>
+    </message>
+    <message>
+        <location filename="../../view/gameSetting_interface.py" line="132"/>
+        <source>Please Select Executable File</source>
+        <translation>请选择可执行文件(exe)</translation>
+    </message>
+    <message>
+        <location filename="../../view/gameSetting_interface.py" line="135"/>
+        <source>Select Other Launcher Executable File</source>
+        <translation>选择其他启动器的可执行文件</translation>
+    </message>
+    <message>
+        <location filename="../../view/gameSetting_interface.py" line="135"/>
+        <source>Executable Files (*.exe)</source>
+        <translation>可执行文件 (*.exe)</translation>
     </message>
 </context>
 <context>

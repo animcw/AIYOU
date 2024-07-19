@@ -29,13 +29,13 @@ def initialize_config(self):
         return os.path.isfile(file_path) and file_path.endswith(filename) and directory in file_path
 
     while not is_specific_file(path, 'Client-Win64-Shipping', 'Client-Win64-Shipping.exe'):
-        show_message_box('No Game Executable File Selected',
-                         'Please Select Game Executable File：Client-Win64-Shipping.exe',
+        show_message_box(self.tr('No Game Executable File Selected'),
+                         self.tr('Please Select Game Executable File：Client-Win64-Shipping.exe'),
                          win32con.MB_ICONINFORMATION)
         game_path, _ = QFileDialog.getOpenFileName(self,
-                                                   "Select Game Executable File：Client-Win64-Shipping.exe",
+                                                   self.tr("Select Game Executable File：Client-Win64-Shipping.exe"),
                                                    "",
-                                                   "Executable Files (*.exe)")
+                                                   self.tr("Executable Files (*.exe)"))
         if game_path:
             update_json(os.path.join(app_data_folder, "config.json"), "GameSetting.GamePath", game_path)
             path = game_path  # 更新path以便循环条件能正确判断

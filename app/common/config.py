@@ -15,16 +15,9 @@ from qfluentwidgets import (qconfig, QConfig, ConfigItem, OptionsConfigItem, Boo
 username = os.getlogin()
 version = [152, 153]
 
-config_path = os.path.join(os.getcwd(), 'AppData', 'config.json')
-
-w = win32api.GetSystemMetrics(win32con.SM_CXSCREEN)  #获得屏幕分辨率X轴
+w = win32api.GetSystemMetrics(win32con.SM_CXSCREEN)  # 获得屏幕分辨率X轴
 
 h = win32api.GetSystemMetrics(win32con.SM_CYSCREEN)
-
-
-def refresh_config():
-    cfg = Config()
-    qconfig.load(os.path.join(os.getcwd(), 'AppData', 'config.json'), cfg)
 
 
 def restart_program():
@@ -60,16 +53,18 @@ def fku_pyinstaller():
             "modDownload": "C:\\Users"
         },
         "GameSetting": {
-            "ClientVersion": '',
-            "customHeight": '',
-            "customWidth": '',
             "GamePath": "",
-            "isCustomResolution": false,
-            "FullScreenMode": 1,
+            "otherLauncherPath": "",
+            "ClientVersion": '',
+            "launchByOther": false,
             "isLoadMod": false,
             "isUnlock120": false,
-            "lastLogin": '',
-            "Resolution": ''
+            "FullScreenMode": 1,
+            "isCustomResolution": false,
+            "Resolution": '',
+            "customHeight": '',
+            "customWidth": '',
+            "lastLogin": ''
         },
         "MainWindow": {
             "DpiScale": "Auto",
@@ -188,16 +183,6 @@ class LanguageSerializer(ConfigSerializer):
         return Language(QLocale(value)) if value != "Auto" else Language.AUTO
 
 
-class GamePath(Enum):
-    if not os.path.exists(config_path):
-        fku_pyinstaller()
-    game_path = read_config_json(config_path, "GameSetting.GamePath")
-
-    @staticmethod
-    def values():
-        return [q.value for q in GamePath]
-
-
 class Resolution(Enum):
     """ Resolution enumeration class """
 
@@ -215,11 +200,12 @@ class Resolution(Enum):
 class Config(QConfig):
     """ Config of application """
     # game
-    gamePath = OptionsConfigItem("GameSetting", "GamePath", GamePath, OptionsValidator(GamePath),
-                                 EnumSerializer(GamePath))
+    gamePath = OptionsConfigItem("GameSetting", "GamePath", "")
+    otherLauncherPath = ConfigItem("GameSetting", "otherLauncherPath", "")
     clientVersion = OptionsConfigItem("GameSetting", "ClientVersion", 1, OptionsValidator([1, 2]))
     lastLogin = OptionsConfigItem("GameSetting", "lastLogin", "",
                                   OptionsValidator(check_client_version()[0]))
+    launchByOther = ConfigItem("GameSetting", "launchByOther", False, BoolValidator())
     isLoadMod = ConfigItem("GameSetting", "isLoadMod", False, BoolValidator())
     isFull = OptionsConfigItem("GameSetting", "FullScreenMode", 1, OptionsValidator([1, 2]))
     resolution = OptionsConfigItem("GameSetting", "Resolution", Resolution.Normal, OptionsValidator(Resolution),
@@ -231,11 +217,11 @@ class Config(QConfig):
 
     # folders
     dataFolder = ConfigItem(
-        "Folders", "AppData", "C:\\Users")
+        "Folders", "AppData", "")
     cacheFolder = ConfigItem(
-        "Folders", "Cache", "C:\\Users")
+        "Folders", "Cache", "")
     modDownloadFolder = ConfigItem(
-        "Folders", "modDownload", "C:\\Users")
+        "Folders", "modDownload", "")
 
     # main window
     dpiScale = OptionsConfigItem(
@@ -246,7 +232,7 @@ class Config(QConfig):
 
 YEAR = 2024
 AUTHOR = "RoosterBrother"
-VERSION = "0.1.6"
+VERSION = "0.1.7"
 VERSION_CHECK_CHECK = "https://gitee.com/wxdxyyds/aiyou/raw/master/version"
 VERSION_CHECK_BACKUP = "https://raw.githubusercontent.com/RoosterBrother/AIYOU/main/AppData/version"
 MOD_DESCRIPTION_URL = "https://gitee.com/wxdxyyds/aiyou_-translate/raw/master/modDescription.json"

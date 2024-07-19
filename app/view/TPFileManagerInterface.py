@@ -5,7 +5,7 @@ import subprocess
 from PyQt5.QtWidgets import QWidget, QFileDialog
 from qfluentwidgets import InfoBarIcon, FlyoutAnimationType
 
-from app.common.config import cfg, mkdir, refresh_config
+from app.common.config import cfg, mkdir
 from app.resource.Pages.TPFileManager import Ui_TPfileWindow
 from app.util.TP_manager import *
 from app.util.UI_general_method import *
@@ -18,11 +18,11 @@ class TPFileManagerPageInterface(QWidget, Ui_TPfileWindow):
         super().__init__(parent=parent)
         self.setupUi(self)
 
-        game_path = cfg.get(cfg.gamePath.value)
+        game_path = cfg.get(cfg.gamePath)
         app_data_path = cfg.get(cfg.dataFolder)
+        self.mod_download_path = cfg.get(cfg.modDownloadFolder)
         self.config_path = os.path.join(os.getcwd(), 'AppData', 'config.json')
         self.mod_path = os.path.join(game_path, '..', '..', '..', 'Content', 'Paks', '~mod')
-        self.mod_download_path = read_config_json(self.config_path, "Folders.modDownload")
 
         # 解析的js路径
         self.unpaked_TP_file_path = os.path.join(app_data_path, 'custom_TP_file')
@@ -73,8 +73,8 @@ class TPFileManagerPageInterface(QWidget, Ui_TPfileWindow):
     def download_folder_selector(self):
         path = QFileDialog.getExistingDirectory(self, self.tr("Select Folder"), "")
         if path:
+            cfg.modDownloadFolder = path
             self.mod_download_path = update_json(self.config_path, "Folders.modDownload", path)
-            refresh_config()
             refresh_folder(self.downloadFolder, path, '.pak')
             self.update_analysis_button_state()
 

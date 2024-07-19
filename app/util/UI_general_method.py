@@ -98,12 +98,6 @@ def show_flyout(self, icon, title, content, target, aniType):
     )
 
 
-def set_icon(button, icon, size):
-    button.setIcon(QIcon(icon))
-    button.setFixedSize(size, size)
-    button.setIconSize(QSize(size, size))
-
-
 def add_tree_items(parent, directory, file_type):
     parent.clear()
     root_item = QTreeWidgetItem([os.path.basename(directory)])

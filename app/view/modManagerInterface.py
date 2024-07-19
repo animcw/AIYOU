@@ -5,7 +5,7 @@ from PyQt5.QtGui import QDesktopServices
 from PyQt5.QtWidgets import QWidget, QFileDialog
 from qfluentwidgets import MessageBox, InfoBarIcon, FlyoutAnimationType
 
-from app.common.config import cfg, mkdir, refresh_config
+from app.common.config import cfg, mkdir
 from app.resource.Pages.modManager import Ui_modWindow
 from app.util.UI_general_method import *
 from app.util.config_modify import update_json
@@ -21,7 +21,7 @@ class modManagerPageInterface(QWidget, Ui_modWindow):
         self.mod_description = load_description()
         self.config_path = os.path.join(os.getcwd(), 'AppData', 'config.json')
         self.mod_download_path = cfg.get(cfg.modDownloadFolder)
-        game_path = cfg.get(cfg.gamePath.value)
+        game_path = cfg.get(cfg.gamePath)
         self.mod_path = os.path.join(game_path, '..', '..', '..', 'Content', 'Paks', '~mod')
 
         mkdir(self.mod_path)
@@ -66,8 +66,8 @@ class modManagerPageInterface(QWidget, Ui_modWindow):
     def download_folder_selector(self):
         path = QFileDialog.getExistingDirectory(self, self.tr("Select Folder"), "")
         if path:
+            cfg.modDownloadFolder = path
             self.mod_download_path = update_json(self.config_path, "Folders.modDownload", path)
-            refresh_config()
             refresh_folder(self.downloadFolder, path, '.pak')
 
     def open_mod_folder(self):

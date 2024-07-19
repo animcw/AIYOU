@@ -94,7 +94,7 @@ class gachaHistoryPageInterface(QWidget, Ui_gachaHistoryWindow):
                             '3.Wait for generate'), self.usageButton, FlyoutAnimationType.DROP_DOWN)
 
     def fetch_gacha_history(self):
-        log_path = os.path.join(cfg.get(cfg.gamePath.value), '..', '..', '..', 'Saved', 'Logs',
+        log_path = os.path.join(cfg.get(cfg.gamePath), '..', '..', '..', 'Saved', 'Logs',
                                 'Client.log')
         url = find_record(log_path)
 

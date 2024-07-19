@@ -4,7 +4,7 @@ import json
 
 from app.common.config import cfg
 
-game_path = cfg.get(cfg.gamePath.value)
+game_path = cfg.get(cfg.gamePath)
 localstorage_path = os.path.join(game_path, '..', '..', '..', 'Saved', 'LocalStorage')
 
 

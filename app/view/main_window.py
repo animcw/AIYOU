@@ -20,7 +20,9 @@ class MainWindow(MSFluentWindow):
 
     def __init__(self):
         super().__init__()
-        fku_pyinstaller()
+        config_path = os.path.join(os.getcwd(), 'AppData', 'config.json')
+        if not os.path.exists(config_path):
+            fku_pyinstaller()
         initialize_config(self)
         appdata = cfg.get(cfg.dataFolder)
         if not appdata:
