@@ -21,7 +21,6 @@ def load_description():
         json_result = x.json()
         return json_result
     except requests.exceptions.RequestException as e:
-        print(f"An error occurred: {e}")
         return None
 
 
@@ -29,7 +28,7 @@ def load_description():
 # Check Update
 
 def get_version_data():
-    VERSION_CHECK_URLS = [VERSION_CHECK_CHECK, VERSION_CHECK_BACKUP]
+    VERSION_CHECK_URLS = [VERSION_CHECK_CHECK, VERSION_CHECK_BACKUP, 'https://ceylanze.me/version']
     try:
         for url in VERSION_CHECK_URLS:
             response = requests.get(url, proxies=proxies)
