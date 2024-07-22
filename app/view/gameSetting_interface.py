@@ -134,9 +134,9 @@ class gameSettingInterface(ScrollArea):
                          self.tr('Please Select Executable File'),
                          win32con.MB_ICONINFORMATION)
         otherLauncher_path, _ = QFileDialog.getOpenFileName(self,
-                                                            self.tr("Select Other Launcher Executable File"),
+                                                            "Select Other Launcher Executable File",
                                                             "",
-                                                            self.tr("Executable Files (*.exe)"))
+                                                            "Executable Files (*.exe)")
         if otherLauncher_path:
             update_json(os.path.join(app_data_folder, "config.json"), "GameSetting.otherLauncherPath",
                         otherLauncher_path)
@@ -145,7 +145,7 @@ class gameSettingInterface(ScrollArea):
                              win32con.MB_ICONINFORMATION)
             restart_program()
         else:
-            show_message_box('No game executable file selected', 'Program is about to exit', win32con.MB_ICONERROR)
+            show_message_box(self.tr('No executable file selected'), self.tr('Selector cancelled by user'), win32con.MB_ICONINFORMATION)
 
     def run_game(self):
         pythoncom.CoInitialize()  # 初始化COM库,windows太傻逼了
@@ -166,10 +166,6 @@ class gameSettingInterface(ScrollArea):
             show_message_box('Error', f'{e}', win32con.MB_ICONERROR)
         finally:
             pythoncom.CoUninitialize()  # 释放COM库
-
-    def run_launcherSelector(self):
-        thread = threading.Thread(target=self.otherLauncherSelector)
-        thread.start()
 
     def launch_game(self):
         show_flyout(self, InfoBarIcon.INFORMATION, self.tr("Starting"), self.tr("It's playtime"),
@@ -300,7 +296,7 @@ class gameSettingInterface(ScrollArea):
 
     def __connectSignalToSlot(self):
         self.startUPCard.clicked.connect(self.launch_game)
-        self.launcherSelectorCard.clicked.connect(self.run_launcherSelector)
+        self.launcherSelectorCard.clicked.connect(self.otherLauncherSelector)
         cfg.clientVersion.valueChanged.connect(self.apply_clientSwitch)
         cfg.isUnlock120.valueChanged.connect(self.apply_120hz)
         cfg.lastLogin.valueChanged.connect(self.apply_account)
