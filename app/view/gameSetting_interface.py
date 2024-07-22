@@ -3,7 +3,9 @@ import os
 import subprocess
 import threading
 
+import pythoncom
 import win32con
+
 from PyQt5.QtCore import Qt
 from PyQt5.QtWidgets import QWidget, QFileDialog
 from qfluentwidgets import FluentIcon as FIF, FluentIcon, PrimaryPushSettingCard, InfoBarIcon, \
@@ -146,6 +148,7 @@ class gameSettingInterface(ScrollArea):
             show_message_box('No game executable file selected', 'Program is about to exit', win32con.MB_ICONERROR)
 
     def run_game(self):
+        pythoncom.CoInitialize()  # 初始化COM库,windows太傻逼了
         try:
             command_dir, command = send_game_setting()
             if command_dir and command:
@@ -161,6 +164,8 @@ class gameSettingInterface(ScrollArea):
                                  win32con.MB_ICONERROR)
         except Exception as e:
             show_message_box('Error', f'{e}', win32con.MB_ICONERROR)
+        finally:
+            pythoncom.CoUninitialize()  # 释放COM库
 
     def run_launcherSelector(self):
         thread = threading.Thread(target=self.otherLauncherSelector)

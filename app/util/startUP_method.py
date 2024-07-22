@@ -2,6 +2,7 @@ import json
 import os
 import shutil
 
+import pythoncom
 import win32com.client
 
 from app.common.config import cfg
